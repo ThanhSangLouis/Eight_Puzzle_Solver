@@ -1,25 +1,25 @@
 
-# 8-Puzzle Solver Game
+# 8-Puzzle Solver Game 🎮
 
 ## Giới Thiệu
 
 Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đố 8-puzzle sử dụng các thuật toán tìm kiếm khác nhau. Game này hỗ trợ nhiều thuật toán giải quyết bài toán xếp hình, bao gồm:
 
-- **BFS** (Breadth-First Search)
-- **DFS** (Depth-First Search)
-- **UCS** (Uniform Cost Search)
-- **Greedy Search**
-- **A\*** (A Star)
-- **IDA\*** (Iterative Deepening A Star)
-- **Hill Climbing** (Thường xuyên sử dụng với hoặc không có ngẫu nhiên)
-- **Simulated Annealing**
-- **Beam Search**
+- **BFS** (Breadth-First Search) 🔍
+- **DFS** (Depth-First Search) 🌿
+- **UCS** (Uniform Cost Search) 💰
+- **Greedy Search** 😈
+- **A\*** (A Star) ⭐
+- **IDA\*** (Iterative Deepening A Star) 🧑‍💻
+- **Hill Climbing** 🧗
+- **Simulated Annealing** 🌡️
+- **Beam Search** 🌟
 
-Ứng dụng được xây dựng bằng **Python** và sử dụng **Pygame** để phát triển giao diện đồ họa.
+Ứng dụng được xây dựng bằng **Python** 🐍 và sử dụng **Pygame** 🎮 để phát triển giao diện đồ họa.
 
 ---
 
-## Tính Năng
+## Tính Năng ⚙️
 
 - **Chọn Thuật Toán**: Cung cấp lựa chọn cho người dùng để chọn thuật toán giải quyết bài toán.
 - **Chế Độ Chỉnh Sửa**: Cho phép người dùng chỉnh sửa trạng thái ban đầu của puzzle (nhấp vào các ô để thay đổi giá trị).
@@ -29,11 +29,11 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 
 ---
 
-## Cài Đặt và Chạy Game
+## Cài Đặt và Chạy Game 💻
 
 ### Yêu Cầu
 
-- Python 3.x
+- Python 3.x 🐍
 - Thư viện **Pygame** (Cài đặt qua `pip`):
 
 ```bash
@@ -56,7 +56,7 @@ python main.py
 
 ---
 
-## Hướng Dẫn Chơi
+## Hướng Dẫn Chơi 🎮
 
 1. **Chỉnh Sửa Trạng Thái Ban Đầu**: 
    - Nhấp vào các ô để thay đổi giá trị. Ô trống sẽ là số `0`.
@@ -66,16 +66,16 @@ python main.py
    - Chọn thuật toán từ danh sách để giải bài toán (ví dụ: BFS, A\*, hoặc Simulated Annealing).
    - Sau khi chọn thuật toán, ứng dụng sẽ bắt đầu giải quyết và hiển thị số bước đi và thanh tiến trình.
 
-3. **Reset**:
+3. **Reset** 🔄:
    - Bạn có thể nhấn "Reset" để quay lại trạng thái ban đầu của puzzle.
    
-4. **Hiển Thị Tiến Trình**:
+4. **Hiển Thị Tiến Trình** 📊:
    - Số bước đi sẽ được cập nhật trong giao diện khi thuật toán đang chạy.
    - Thanh tiến trình sẽ cho bạn thấy tiến độ giải bài toán.
 
 ---
 
-## Cấu Trúc Dự Án
+## Cấu Trúc Dự Án 🗂️
 
 - **`main.py`**: Điểm vào của ứng dụng, nơi các sự kiện và logic chính được xử lý.
 - **`gui.py`**: Các hàm liên quan đến giao diện người dùng của game.
@@ -84,7 +84,7 @@ python main.py
 
 ---
 
-## Ảnh Minh Họa
+## Ảnh Minh Họa 🖼️
 
 ### Giao Diện Game
 ![Game Interface](images/game_interface.png)
@@ -94,7 +94,7 @@ python main.py
 
 ---
 
-## Cảm Ơn
+## Cảm Ơn 🙏
 
 Cảm ơn bạn đã sử dụng **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
 
