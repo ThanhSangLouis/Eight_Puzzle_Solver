@@ -1,4 +1,3 @@
-
 # 8-Puzzle Solver Game 🎮
 
 ## Giới Thiệu
@@ -58,17 +57,16 @@ python main.py
 
 ## Hướng Dẫn Chơi 🎮
 
-1. **Chỉnh Sửa Trạng Thái Ban Đầu**: 
+1. **Chỉnh Sửa Trạng Thái Ban Đầu**:
    - Nhấp vào các ô để thay đổi giá trị. Ô trống sẽ là số `0`.
    - Bạn có thể nhấp chuột phải để thay đổi giá trị của ô trống từ 8 đến 0.
-   
 2. **Chọn Thuật Toán**:
+
    - Chọn thuật toán từ danh sách để giải bài toán (ví dụ: BFS, A\*, hoặc Simulated Annealing).
    - Sau khi chọn thuật toán, ứng dụng sẽ bắt đầu giải quyết và hiển thị số bước đi và thanh tiến trình.
 
 3. **Reset** 🔄:
    - Bạn có thể nhấn "Reset" để quay lại trạng thái ban đầu của puzzle.
-   
 4. **Hiển Thị Tiến Trình** 📊:
    - Số bước đi sẽ được cập nhật trong giao diện khi thuật toán đang chạy.
    - Thanh tiến trình sẽ cho bạn thấy tiến độ giải bài toán.
@@ -87,9 +85,11 @@ python main.py
 ## Ảnh Minh Họa 🖼️
 
 ### Giao Diện Game
-![Game Interface](images/game_interface.png)
+
+![Game Interface](Eight_Puzzle_Solver\eight_puzzle_solver\images\game_interface.png")
 
 ### Bảng Xếp Hình
+
 ![Puzzle Board](images/puzzle_board.png)
 
 ---
