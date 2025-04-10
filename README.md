@@ -25,46 +25,6 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 
 ---
 
-## 📊 So Sánh Hiệu Suất Thuật Toán
-```mermaid
-graph TD
-    title[So Sánh Hiệu Suất Các Thuật Toán 8-Puzzle]
-    
-    subgraph Chỉ Số
-    time[Thời Gian Giải Trung Bình (ms)]
-    memory[Sử Dụng Bộ Nhớ (MB)]
-    optimal[Tính Tối Ưu (thấp hơn là tốt hơn)]
-    steps[Số Bước Trung Bình]
-    end
-    subgraph Thuật Toán
-    bfs[BFS]
-    dfs[DFS]
-    ucs[UCS]
-    greedy[Greedy]
-    astar[A*]
-    ida[IDA*]
-    hill[Hill Climbing]
-    annealing[Simulated Annealing]
-    beam[Beam Search]
-    end
-    time --> bfs_time[250]
-    memory --> bfs_memory[Cao]
-    optimal --> bfs_optimal[100%]
-    steps --> bfs_steps[Trung bình]
-    time --> dfs_time[150]
-    memory --> dfs_memory[Trung bình]
-    optimal --> dfs_optimal[Không]
-    steps --> dfs_steps[Cao]
-    time --> astar_time[180]
-    memory --> astar_memory[Trung bình]
-    optimal --> astar_optimal[100%]
-    steps --> astar_steps[Thấp]
-    time --> ida_time[220]
-    memory --> ida_memory[Thấp]
-    optimal --> ida_optimal[100%]
-    steps --> ida_steps[Thấp]
-
-
 ## Cài Đặt và Chạy Game 💻
 
 ### Yêu Cầu
