@@ -44,13 +44,13 @@ pip install pygame
 1. Clone dự án về máy của bạn:
 
 ```bash
-git clone https://github.com/username/8-Puzzle-Solver.git
+https://github.com/ThanhSangLouis/Eight_Puzzle_Solver.git
 ```
 
 2. Chạy ứng dụng:
 
 ```bash
-python main.py
+python -m eight_puzzle_solver.main
 ```
 
 ---
