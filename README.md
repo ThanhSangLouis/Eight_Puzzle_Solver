@@ -86,7 +86,7 @@ python main.py
 
 ### Giao Diện Game
 
-![Game Interface](https://github.com/ThanhSangLouis/eight_puzzle_solver/raw/main/images/game_interface.png)
+![Game Interface](eight_puzzle_solver\images\game_interface.png)
 
 ### Bảng Xếp Hình
 
