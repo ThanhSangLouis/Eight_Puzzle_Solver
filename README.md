@@ -14,6 +14,20 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 
 Ứng dụng được xây dựng bằng **Python** 🐍 và sử dụng **Pygame** 🎮 để phát triển giao diện đồ họa.
 
+## 🧠 Các Thuật Toán Hỗ Trợ
+
+| Thuật Toán | Loại | Mô Tả |
+|------------|------|-------|
+| **BFS** | Không định hướng | Tìm kiếm theo chiều rộng khám phá tất cả các nút ở độ sâu hiện tại trước khi chuyển sang độ sâu tiếp theo |
+| **DFS** | Không định hướng | Tìm kiếm theo chiều sâu khám phá càng xa càng tốt theo mỗi nhánh trước khi quay lui |
+| **UCS** | Không định hướng | Tìm kiếm chi phí đồng nhất mở rộng nút có chi phí đường đi thấp nhất |
+| **Greedy** | Có định hướng | Tìm kiếm tham lam luôn chọn đường đi tốt nhất tại thời điểm hiện tại |
+| **A*** | Có định hướng | A* kết hợp ưu điểm của UCS và Greedy bằng cách sử dụng cả chi phí đường đi và heuristic |
+| **IDA*** | Có định hướng | Lặp sâu A* kết hợp tìm kiếm theo chiều sâu lặp với A* để tìm giải pháp tối ưu với bộ nhớ thấp hơn |
+| **Hill Climbing** | Cục bộ | Thuật toán leo đồi luôn di chuyển theo hướng tăng giá trị để đạt cực đại cục bộ |
+| **Simulated Annealing** | Cục bộ | Mô phỏng luyện kim đôi khi chấp nhận giải pháp tệ hơn để thoát khỏi cực đại cục bộ |
+| **Beam Search** | Bộ nhớ giới hạn | Tìm kiếm chùm giới hạn độ rộng của cây tìm kiếm để tiết kiệm bộ nhớ nhưng vẫn đảm bảo chất lượng giải pháp |
+
 ---
 
 ## Tính Năng ⚙️
