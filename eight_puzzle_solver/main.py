@@ -3,7 +3,7 @@
 
 import pygame
 from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_step_count, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
-from eight_puzzle_solver.algorithms import bfs_solve, dfs_solve, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve
+from eight_puzzle_solver.algorithms import bfs_solve, dfs_solve, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
 from eight_puzzle_solver.utils import generate_fixed_puzzle, is_movable
 
 # Initialize Pygame

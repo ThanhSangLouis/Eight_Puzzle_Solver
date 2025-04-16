@@ -446,3 +446,129 @@ def beam_search_solve(start_state, beam_width=2):
         queue = [heappop(next_level) for _ in range(min(beam_width, len(next_level)))]
 
     return None  # Không tìm thấy lời giải
+def and_or_search(initial_state):
+    goal_state = list(range(1, 9)) + [0]  # Trạng thái mục tiêu [1, 2, 3, 4, 5, 6, 7, 8, 0]
+    visited = set()  # Lưu trạng thái đã duyệt để tránh lặp vô hạn
+    
+    # Hàm kiểm tra khả năng giải được của trạng thái
+    def is_solvable(state):
+        # Tính số nghịch thế (inversion)
+        inversions = 0
+        for i in range(len(state)):
+            if state[i] == 0:
+                continue
+            for j in range(i + 1, len(state)):
+                if state[j] != 0 and state[i] > state[j]:
+                    inversions += 1
+        return inversions % 2 == 0
+    
+    # Nếu trạng thái ban đầu không thể giải được, trả về None
+    if not is_solvable(initial_state) and is_solvable(goal_state):
+        return None
+    
+    # Hàm tạo ra các trạng thái kế tiếp hợp lệ
+    def get_next_states(state):
+        zero_idx = state.index(0)
+        moves = []
+        # Kiểm tra 4 hướng di chuyển: lên, xuống, trái, phải
+        
+        # Di chuyển lên
+        if zero_idx >= 3:
+            new_state = state.copy()
+            new_state[zero_idx], new_state[zero_idx - 3] = new_state[zero_idx - 3], new_state[zero_idx]
+            moves.append((new_state, (zero_idx, zero_idx - 3)))
+        
+        # Di chuyển xuống
+        if zero_idx < 6:
+            new_state = state.copy()
+            new_state[zero_idx], new_state[zero_idx + 3] = new_state[zero_idx + 3], new_state[zero_idx]
+            moves.append((new_state, (zero_idx, zero_idx + 3)))
+        
+        # Di chuyển sang trái
+        if zero_idx % 3 != 0:
+            new_state = state.copy()
+            new_state[zero_idx], new_state[zero_idx - 1] = new_state[zero_idx - 1], new_state[zero_idx]
+            moves.append((new_state, (zero_idx, zero_idx - 1)))
+        
+        # Di chuyển sang phải
+        if zero_idx % 3 != 2:
+            new_state = state.copy()
+            new_state[zero_idx], new_state[zero_idx + 1] = new_state[zero_idx + 1], new_state[zero_idx]
+            moves.append((new_state, (zero_idx, zero_idx + 1)))
+        
+        return moves
+    
+    # Hàm đệ quy để duyệt cây AND-OR
+    def recursive_dfs(state, depth=0, max_depth=30):
+        if state == goal_state:
+            return []  # Đã tìm thấy mục tiêu, trả về danh sách rỗng
+        
+        if depth >= max_depth:
+            return None  # Vượt quá độ sâu tối đa
+        
+        state_tuple = tuple(state)
+        if state_tuple in visited:
+            return None  # Tránh lặp lại trạng thái
+        
+        visited.add(state_tuple)
+        
+        # Đây là nút OR: chúng ta cần tìm ít nhất một đường đi tới đích
+        next_moves = get_next_states(state)
+        
+        for next_state, move in next_moves:
+            # Gọi đệ quy để tìm đường đi từ trạng thái kế tiếp
+            path = recursive_dfs(next_state, depth + 1, max_depth)
+            
+            if path is not None:
+                # Nếu tìm thấy đường đi, thêm bước di chuyển hiện tại vào đầu đường đi
+                return [move] + path
+        
+        # Không tìm thấy đường đi nào đến đích
+        return None
+    
+    # Bắt đầu thuật toán với trạng thái ban đầu
+    return recursive_dfs(initial_state)
+
+# Hàm giải thuật Searching with No Observation
+def no_observation_search(start_state):
+    goal_state = list(range(1, 9)) + [0]  # Trạng thái đích
+    visited = set()                      # Trạng thái đã duyệt
+    path = []                            # Lưu đường đi
+    MAX_DEPTH = 50                       # Giới hạn độ sâu tránh tràn stack
+
+    def explore(state, depth=0):
+        if state == goal_state:
+            return True
+        if depth > MAX_DEPTH:
+            return False
+
+        visited.add(tuple(state))
+        zero_idx = state.index(0)
+        moves = [-3, 3, -1, 1]  # Lên, xuống, trái, phải
+
+        # Ưu tiên di chuyển tới gần đích hơn (theo Manhattan distance)
+        next_states = []
+        for move in moves:
+            new_idx = zero_idx + move
+            if 0 <= new_idx < 9 and (
+                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or (move in [-3, 3])
+            ):
+                new_state = state[:]
+                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+                if tuple(new_state) not in visited:
+                    next_states.append((new_state, (zero_idx, new_idx)))
+
+        # Sắp xếp để đi nước "hứa hẹn" hơn trước
+        next_states.sort(key=lambda x: manhattan_distance(x[0]))
+
+        for new_state, move in next_states:
+            path.append(move)
+            if explore(new_state, depth + 1):
+                return True
+            path.pop()
+
+        return False
+
+    if explore(start_state):
+        return path
+    return None
