@@ -4,7 +4,7 @@
 import pygame
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve
+from .algorithms import and_or_search, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search
 
 # Initialize Pygame
 pygame.init()
@@ -67,7 +67,7 @@ def draw_board(state):
 def draw_buttons():
     buttons = ["BFS", "DFS", "UCS", "Greedy", "IDDFS", 
                "A*", "IDA*", "Hill Climbing", "SA HC", "Stochastic HC", 
-               "Simu Annealing", "Beam Search", "And-Or Search","No Observation","Reset", "Apply"]
+               "Simu Annealing", "Beam Search", "And-Or Search","No Observation","Partial Obser","Reset", "Apply"]
     colors = [button_color] * (len(buttons) - 2) + [reset_color, reset_color]  # Đặt màu đỏ cho "Reset" và "Apply"
     hover_colors = [button_hover_color] * (len(buttons) - 2) + [reset_hover_color, reset_hover_color]
 
@@ -82,14 +82,17 @@ def draw_buttons():
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
     for i, (btn_text, color, hover_color) in enumerate(zip(buttons, colors, hover_colors)):
-        col = i // 10  # 7 nút mỗi cột
-        row = i % 10
+        col = i // 11  # 7 nút mỗi cột
+        row = i % 11
 
         x = start_x1 if col == 0 else start_x2
         y = start_y + row * (button_height + spacing)
 
         rect = pygame.Rect(x, y, button_width, button_height)
-        current_color = hover_color if rect.collidepoint(mouse_x, mouse_y) else color
+        if rect.collidepoint(mouse_x, mouse_y):
+            current_color = (50, 150, 255)  # Khi hover ➔ Màu xanh dương sáng
+        else:
+            current_color = color
 
         if btn_text == selected_algorithm_name:
             current_color = (50, 150, 255)  # Màu xanh dương đậm
@@ -173,14 +176,15 @@ def get_clicked_button(pos):
         ("Simu Annealing", simulated_annealing_solve), 
         ("Beam Search", beam_search_solve),
         ("And-Or Search", and_or_search), 
-        ("No Observation", no_observation_search),  # Thay thế None bằng hàm tương ứng nếu có
+        ("No Observation", no_observation_search),
+        ("Partial Obser", partial_observable_search),  # Thay thế None bằng hàm tương ứng nếu có
         ("Reset", "reset"),
         ("Apply", "apply")
     ]
 
     for i, (btn_text, algorithm) in enumerate(algorithms):
-        col = i // 10  # 7 nút mỗi cột
-        row = i % 10
+        col = i // 11  # 7 nút mỗi cột
+        row = i % 11
         x_min = start_x1 if col == 0 else start_x2
         x_max = x_min + button_width
         y_min = start_y + row * (button_height + spacing)

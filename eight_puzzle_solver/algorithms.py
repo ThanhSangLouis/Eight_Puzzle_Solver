@@ -532,9 +532,9 @@ def and_or_search(initial_state):
 # Hàm giải thuật Searching with No Observation
 def no_observation_search(start_state):
     goal_state = list(range(1, 9)) + [0]  # Trạng thái đích
-    visited = set()                      # Trạng thái đã duyệt
-    path = []                            # Lưu đường đi
-    MAX_DEPTH = 50                       # Giới hạn độ sâu tránh tràn stack
+    visited = set()                       # Trạng thái đã duyệt
+    path = []                             # Lưu đường đi
+    MAX_DEPTH = 50                        # Giới hạn độ sâu tránh tràn stack
 
     def explore(state, depth=0):
         if state == goal_state:
@@ -572,3 +572,58 @@ def no_observation_search(start_state):
     if explore(start_state):
         return path
     return None
+
+# Hàm giải thuật Partial Observable Search (Belief State Search)
+def partial_observable_search(start_state):
+    from collections import deque
+    goal_state = list(range(1, 9)) + [0]
+    observed_indices = [0, 1, 2]  # Các ô 0,1,2 đã biết chắc
+
+    # Hàm kiểm tra khả giải
+    def is_solvable(state):
+        inversions = 0
+        for i in range(len(state)):
+            if state[i] == 0:
+                continue
+            for j in range(i + 1, len(state)):
+                if state[j] != 0 and state[i] > state[j]:
+                    inversions += 1
+        return inversions % 2 == 0
+
+    if not is_solvable(start_state):
+        return None
+
+    visited = set()
+    queue = deque([(start_state, [])])
+
+    while queue:
+        current_state, path = queue.popleft()
+
+        # ✅ Kiểm tra nếu đã đạt đích
+        if current_state == goal_state:
+            return path
+
+        zero_idx = current_state.index(0)
+        moves = [-3, 3, -1, 1]  # Lên, Xuống, Trái, Phải
+
+        for move in moves:
+            new_idx = zero_idx + move
+
+            # Kiểm tra nước đi hợp lệ
+            if 0 <= new_idx < 9 and (
+                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
+                (move in [-3, 3])
+            ):
+                # ❗ Không cho swap làm ảnh hưởng đến ô 0,1,2
+                if new_idx in observed_indices:
+                    continue  # Bỏ qua nước đi nếu làm thay đổi ô 1,2,3 cố định
+
+                new_state = current_state[:]
+                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+
+                if tuple(new_state) not in visited:
+                    visited.add(tuple(new_state))
+                    queue.append((new_state, path + [(zero_idx, new_idx)]))
+
+    return None
+
