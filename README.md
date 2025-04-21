@@ -1,7 +1,7 @@
 # 8-Puzzle Solver Game 🎮
 
 ## Giới Thiệu
-Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đố 8-puzzle sử dụng các thuật toán tìm kiếm khác nhau. Game này hỗ trợ nhiều thuật toán giải quyết bài toán xếp hình, bao gồm:
+Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đố trò chơi 8-puzzle sử dụng các thuật toán tìm kiếm khác nhau. Game này hỗ trợ nhiều thuật toán giải quyết bài toán xếp hình, bao gồm:
 - **BFS** (Breadth-First Search) 🔍
 - **DFS** (Depth-First Search) 🌿
 - **UCS** (Uniform Cost Search) 💰
@@ -11,28 +11,36 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 - **Hill Climbing** 🧗
 - **Simulated Annealing** 🌡️
 - **Beam Search** 🌟
+- **And-Or Search** 🔀
+- **No Observation Search** ❓
+- **Partial Observable Search** 🔍
 
 Ứng dụng được xây dựng bằng **Python** 🐍 và sử dụng **Pygame** 🎮 để phát triển giao diện đồ họa.
 
+---
+
 ## 🧠 Các Thuật Toán Hỗ Trợ
 
-| Thuật Toán | Loại | Mô Tả |
-|------------|------|-------|
-| **BFS** | Không định hướng | Tìm kiếm theo chiều rộng khám phá tất cả các nút ở độ sâu hiện tại trước khi chuyển sang độ sâu tiếp theo |
-| **DFS** | Không định hướng | Tìm kiếm theo chiều sâu khám phá càng xa càng tốt theo mỗi nhánh trước khi quay lui |
-| **UCS** | Không định hướng | Tìm kiếm chi phí đồng nhất mở rộng nút có chi phí đường đi thấp nhất |
-| **Greedy** | Có định hướng | Tìm kiếm tham lam luôn chọn đường đi tốt nhất tại thời điểm hiện tại |
-| **A*** | Có định hướng | A* kết hợp ưu điểm của UCS và Greedy bằng cách sử dụng cả chi phí đường đi và heuristic |
-| **IDA*** | Có định hướng | Lặp sâu A* kết hợp tìm kiếm theo chiều sâu lặp với A* để tìm giải pháp tối ưu với bộ nhớ thấp hơn |
-| **Hill Climbing** | Cục bộ | Thuật toán leo đồi luôn di chuyển theo hướng tăng giá trị để đạt cực đại cục bộ |
-| **Simulated Annealing** | Cục bộ | Mô phỏng luyện kim đôi khi chấp nhận giải pháp tệ hơn để thoát khỏi cực đại cục bộ |
-| **Beam Search** | Bộ nhớ giới hạn | Tìm kiếm chùm giới hạn độ rộng của cây tìm kiếm để tiết kiệm bộ nhớ nhưng vẫn đảm bảo chất lượng giải pháp |
+| Thuật Toán                  | Loại              | Mô Tả                                                                 |
+|-----------------------------|-------------------|----------------------------------------------------------------------|
+| **BFS**                     | Không định hướng  | Tìm kiếm theo chiều rộng khám phá tất cả các nút ở độ sâu hiện tại trước khi chuyển sang độ sâu tiếp theo |
+| **DFS**                     | Không định hướng  | Tìm kiếm theo chiều sâu khám phá càng xa càng tốt theo mỗi nhánh trước khi quay lui |
+| **UCS**                     | Không định hướng  | Tìm kiếm chi phí đồng nhất mở rộng nút có chi phí đường đi thấp nhất |
+| **Greedy**                  | Có định hướng     | Tìm kiếm tham lam luôn chọn đường đi tốt nhất tại thời điểm hiện tại |
+| **A\***                     | Có định hướng     | A* kết hợp ưu điểm của UCS và Greedy bằng cách sử dụng cả chi phí đường đi và heuristic |
+| **IDA\***                   | Có định hướng     | Lặp sâu A* kết hợp tìm kiếm theo chiều sâu lặp với A* để tìm giải pháp tối ưu với bộ nhớ thấp hơn |
+| **Hill Climbing**           | Cục bộ            | Thuật toán leo đồi luôn di chuyển theo hướng tăng giá trị để đạt cực đại cục bộ |
+| **Simulated Annealing**     | Cục bộ            | Mô phỏng luyện kim đôi khi chấp nhận giải pháp tệ hơn để thoát khỏi cực đại cục bộ |
+| **Beam Search**             | Bộ nhớ giới hạn   | Tìm kiếm chùm giới hạn độ rộng của cây tìm kiếm để tiết kiệm bộ nhớ nhưng vẫn đảm bảo chất lượng giải pháp |
+| **And-Or Search**           | Cây AND-OR       | Tìm kiếm trên cây AND-OR để tìm giải pháp tối ưu |
+| **No Observation Search**   | Không quan sát    | Tìm kiếm trạng thái đích mà không có bất kỳ thông tin quan sát nào |
+| **Partial Observable Search** | Quan sát một phần | Tìm kiếm với trạng thái "quan sát được" một số ô trên bảng |
 
 ---
 
 ## Tính Năng ⚙️
 - **Chọn Thuật Toán**: Cung cấp lựa chọn cho người dùng để chọn thuật toán giải quyết bài toán.
-- **Chế Độ Chỉnh Sửa**: Cho phép người dùng chỉnh sửa trạng thái ban đầu của puzzle (nhấp vào các ô để thay đổi giá trị).
+- **Chế Độ Chỉnh Sửa**: Cho phép người dùng chỉnh sửa trạng thái ban đầu của puzzle (hoặc nhấp vào các ô hoặc cuộn con lăn chuột để thay đổi giá trị).
 - **Hiển Thị Tiến Trình**: Thể hiện số bước đi và thanh tiến trình khi thuật toán đang giải quyết bài toán.
 - **Hỗ Trợ Nhiều Thuật Toán**: Chạy nhiều thuật toán tìm kiếm với các tiêu chí khác nhau để giải bài toán.
 - **Giao Diện Đẹp**: Giao diện trực quan với các hiệu ứng đẹp mắt khi di chuyển các ô trong game.
@@ -99,10 +107,6 @@ python -m eight_puzzle_solver.main
 
 ![Game_Interface](https://github.com/ThanhSangLouis/Eight_Puzzle_Solver/blob/69e09b1446bb4296cbca4962fa26cefcacfed678/game_interface.png)
 
-### Bảng Xếp Hình
-
-![Puzzle Board](images/puzzle_board.png)
-
 ---
 
 ## Cảm Ơn 🙏
@@ -111,4 +115,4 @@ Cảm ơn bạn đã sử dụng **8-Puzzle Solver**. Chúng tôi hy vọng bạ
 
 ---
 
-Chúc bạn chơi vui! 🎮
+Chúc bạn chơi vui nhé! 🎮
