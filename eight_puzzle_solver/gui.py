@@ -4,7 +4,7 @@
 import pygame
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search
+from .algorithms import and_or_search, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve, backtracking_search
 
 # Initialize Pygame
 pygame.init()
@@ -67,43 +67,43 @@ def draw_board(state):
 def draw_buttons():
     buttons = ["BFS", "DFS", "UCS", "Greedy", "IDDFS", 
                "A*", "IDA*", "Hill Climbing", "SA HC", "Stochastic HC", 
-               "Simu Annealing", "Beam Search", "And-Or Search","No Observation","Partial Obser","Reset", "Apply"]
-    colors = [button_color] * (len(buttons) - 2) + [reset_color, reset_color]  # Đặt màu đỏ cho "Reset" và "Apply"
+               "Simu Annealing", "Beam Search", "And-Or Search",
+               "No Observation", "Partial Obser", "Test Algo", "Backtracking", "Reset", "Apply"]
+    
+    colors = [button_color] * (len(buttons) - 2) + [reset_color, reset_color]
     hover_colors = [button_hover_color] * (len(buttons) - 2) + [reset_hover_color, reset_hover_color]
 
     button_width, button_height = 200, 50
     spacing = 10
 
-    # Tính vị trí bắt đầu sao cho căn giữa theo chiều dọc
+    # Chia đều nút giữa 2 cột
+    col_count = 2
+    total = len(buttons)
+    rows_per_col = (total + col_count - 1) // col_count  # Làm tròn lên
+
     start_y = PADDING
-    start_x1 = WIDTH - 2 * button_width - 60  # Cột 1 (bên trái)
-    start_x2 = WIDTH - button_width - 40      # Cột 2 (bên phải)
+    start_x1 = WIDTH - 2 * button_width - 60
+    start_x2 = WIDTH - button_width - 40
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
     for i, (btn_text, color, hover_color) in enumerate(zip(buttons, colors, hover_colors)):
-        col = i // 11  # 7 nút mỗi cột
-        row = i % 11
+        col = i % col_count
+        row = i // col_count
 
         x = start_x1 if col == 0 else start_x2
         y = start_y + row * (button_height + spacing)
 
         rect = pygame.Rect(x, y, button_width, button_height)
-        if rect.collidepoint(mouse_x, mouse_y):
-            current_color = (50, 150, 255)  # Khi hover ➔ Màu xanh dương sáng
-        else:
-            current_color = color
+        current_color = (50, 150, 255) if rect.collidepoint(mouse_x, mouse_y) else color
 
         if btn_text == selected_algorithm_name:
-            current_color = (50, 150, 255)  # Màu xanh dương đậm
+            current_color = (50, 150, 255)
             pygame.draw.rect(WINDOW, (255, 255, 255), rect, width=3, border_radius=20)
 
-        # Vẽ bóng
         shadow = pygame.Rect(rect.x + 2, rect.y + 2, rect.width, rect.height)
         pygame.draw.rect(WINDOW, (180, 180, 180), shadow, border_radius=20)
-        # Vẽ nút chính
         pygame.draw.rect(WINDOW, current_color, rect, border_radius=20)
-        # Viền trắng nhẹ
         pygame.draw.rect(WINDOW, white, rect, width=2, border_radius=20)
 
         text = button_font.render(btn_text, True, white)
@@ -177,22 +177,29 @@ def get_clicked_button(pos):
         ("Beam Search", beam_search_solve),
         ("And-Or Search", and_or_search), 
         ("No Observation", no_observation_search),
-        ("Partial Obser", partial_observable_search),  # Thay thế None bằng hàm tương ứng nếu có
+        ("Partial Obser", partial_observable_search),
+        ("Test Algo", test_algorithms_solve),
+        ("Backtracking", backtracking_search),
         ("Reset", "reset"),
         ("Apply", "apply")
     ]
 
+    col_count = 2
+    rows_per_col = (len(algorithms) + col_count - 1) // col_count
+
     for i, (btn_text, algorithm) in enumerate(algorithms):
-        col = i // 11  # 7 nút mỗi cột
-        row = i % 11
+        col = i % col_count
+        row = i // col_count
+
         x_min = start_x1 if col == 0 else start_x2
-        x_max = x_min + button_width
         y_min = start_y + row * (button_height + spacing)
+        x_max = x_min + button_width
         y_max = y_min + button_height
 
         if x_min <= pos[0] <= x_max and y_min <= pos[1] <= y_max:
             return algorithm, btn_text
     return None, None
+
 
 # Vẽ tên thuật toán đã chọn
 def draw_selected_algorithm(algorithm_name):

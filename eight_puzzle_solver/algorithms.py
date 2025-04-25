@@ -529,13 +529,14 @@ def and_or_search(initial_state):
     # Bắt đầu thuật toán với trạng thái ban đầu
     return recursive_dfs(initial_state)
 
-# Hàm giải thuật Searching with No Observation
+# Hàm giải thuật Searching with No Observation - Thuật toán tìm kiếm với không có bất kì quan sát nào về trạng thái
 def no_observation_search(start_state):
     goal_state = list(range(1, 9)) + [0]  # Trạng thái đích
     visited = set()                       # Trạng thái đã duyệt
-    path = []                             # Lưu đường đi
+    path = []                             # Lưu đường đi từ trạng thái ban đầu đến trạng thái hiện tại
     MAX_DEPTH = 50                        # Giới hạn độ sâu tránh tràn stack
 
+    # Hàm đệ quy thực hiện tìm kiếm trạng thái đích bằng cách duyệt qua các trạng thái kế tiếp
     def explore(state, depth=0):
         if state == goal_state:
             return True
@@ -555,6 +556,7 @@ def no_observation_search(start_state):
             ):
                 new_state = state[:]
                 new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+                # Nếu trạng thái mới chưa được duyệt thì thêm vào danh sách next_states
                 if tuple(new_state) not in visited:
                     next_states.append((new_state, (zero_idx, new_idx)))
 
@@ -562,8 +564,8 @@ def no_observation_search(start_state):
         next_states.sort(key=lambda x: manhattan_distance(x[0]))
 
         for new_state, move in next_states:
-            path.append(move)
-            if explore(new_state, depth + 1):
+            path.append(move) # Thêm bước di chuyển vào đường đi
+            if explore(new_state, depth + 1): # Gọi đệ quy để tiếp tục tìm trạng thái mới
                 return True
             path.pop()
 
@@ -573,13 +575,13 @@ def no_observation_search(start_state):
         return path
     return None
 
-# Hàm giải thuật Partial Observable Search (Belief State Search)
+# Hàm giải thuật Partial Observable Search (Belief State Search): tìm kiếm với trạng thái "quan sát được" một số ô trên bảng (1,2,3)
 def partial_observable_search(start_state):
     from collections import deque
     goal_state = list(range(1, 9)) + [0]
     observed_indices = [0, 1, 2]  # Các ô 0,1,2 đã biết chắc
 
-    # Hàm kiểm tra khả giải
+    # Hàm kiểm tra trạng thái có thể giải được hay không - số nghịch thể là chẵn thì có thể giải được và ngược lại
     def is_solvable(state):
         inversions = 0
         for i in range(len(state)):
@@ -593,13 +595,13 @@ def partial_observable_search(start_state):
     if not is_solvable(start_state):
         return None
 
-    visited = set()
-    queue = deque([(start_state, [])])
+    visited = set() # Tập hợp các trạng thái đã duyệt để tránh lặp lại
+    queue = deque([(start_state, [])]) # Hàng đợi lưu trữ các trạng thái cần duyệt
 
     while queue:
-        current_state, path = queue.popleft()
+        current_state, path = queue.popleft() # Lấy trạng thái đầu tiên trong hàng đợi
 
-        # ✅ Kiểm tra nếu đã đạt đích
+        # Kiểm tra nếu đã đạt đích
         if current_state == goal_state:
             return path
 
@@ -614,10 +616,11 @@ def partial_observable_search(start_state):
                 (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
                 (move in [-3, 3])
             ):
-                # ❗ Không cho swap làm ảnh hưởng đến ô 0,1,2
+                # Không cho swap làm ảnh hưởng đến ô 0,1,2
                 if new_idx in observed_indices:
                     continue  # Bỏ qua nước đi nếu làm thay đổi ô 1,2,3 cố định
 
+                # Thêm trạng thái mới vào hàng đợi
                 new_state = current_state[:]
                 new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
 
@@ -627,3 +630,85 @@ def partial_observable_search(start_state):
 
     return None
 
+# Thuật toán test_algorithms_solve: thử các nước đi nào giảm heuristic thì đi
+def test_algorithms_solve(start_state):
+    goal_state = list(range(1, 9)) + [0]
+    current_state = start_state[:] 
+    path = [] # Danh sách lưu các bước di chuyển từ trạng thái ban đầu đến trạng thái hiện tại
+    visited = set() # Trạng thái đã duyệt
+    visited.add(tuple(current_state)) # Thêm trạng thái ban đầu vào tập đã duyệt
+
+    while current_state != goal_state:
+        zero_idx = current_state.index(0)
+        moves = [-3, 3, -1, 1]
+        next_states = [] # Danh sách lưu các trạng thái kế tiếp
+
+        for move in moves:
+            new_idx = zero_idx + move
+            if 0 <= new_idx < 9 and (
+                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
+                (move in [-3, 3])
+            ):
+                new_state = current_state[:]
+                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+                # Nếu trạng thái mới chưa được duyệt thì tính giá trị heuristic (Manhattan distance) của trạng thái mới
+                if tuple(new_state) not in visited:
+                    h = manhattan_distance(new_state)
+                    next_states.append((h, new_state, (zero_idx, new_idx)))
+
+        if not next_states:
+            return None  # không tìm được đường đi
+
+        # chọn trạng thái có heuristic thấp nhất
+        next_states.sort(key=lambda x: x[0]) # x[0]: giá trị heuristic
+        _, best_state, best_move = next_states[0]
+        current_state = best_state
+        path.append(best_move)
+        visited.add(tuple(current_state))
+
+        # nếu kẹt không tiến được → kết thúc
+        if len(visited) > 500:
+            return None
+
+    return path
+
+# Danh sách các bước di chuyển hợp lệ
+def get_next_states(state):
+    zero_idx = state.index(0)
+    moves = [-3, 3, -1, 1]
+    next_states = []
+
+    for move in moves:
+        new_idx = zero_idx + move
+        if 0 <= new_idx < 9 and (
+            (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
+            (move in [-3, 3])
+        ):
+            new_state = state[:]
+            new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+            next_states.append((new_state, (zero_idx, new_idx)))
+    return next_states
+
+# Tìm kiếm theo chiều sâu với backtracking
+def backtracking_search(start_state, max_depth=500):
+    goal_state = list(range(1, 9)) + [0]
+    visited = set()
+
+    def recursive_bt(state, path, depth):
+        if state == goal_state:
+            return path
+        if depth > max_depth:
+            return None
+
+        visited.add(tuple(state))
+
+        for next_state, move in get_next_states(state):
+            if tuple(next_state) not in visited:
+                result = recursive_bt(next_state, path + [move], depth + 1)
+                if result is not None:
+                    return result
+
+        visited.remove(tuple(state))
+        return None
+
+    return recursive_bt(start_state, [], 0)
