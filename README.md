@@ -100,7 +100,13 @@ python -m eight_puzzle_solver.main
 - **`utils.py`**: Các hàm hỗ trợ khác như tính toán khoảng cách Manhattan.
 
 ---
+### Enter input with BFS Algorithm
 
+![Use_with_BFS](https://github.com/user-attachments/assets/b89768a5-b798-40ac-b91a-17ab2bd7ba18)
+
+
+
+---
 ## Ảnh Minh Họa 🖼️
 
 ### Giao Diện Game
