@@ -125,6 +125,10 @@ python -m eight_puzzle_solver.main
 ### A*
 ![AStar](https://github.com/user-attachments/assets/b775f791-56aa-410d-b07a-d47472143b31)
 
+### IDA*
+
+![IDAStar](https://github.com/user-attachments/assets/8755251d-c694-4356-94ad-d7e0d6800df7)
+
 ### Hill Climbing
 
 ![HillClimbing](https://github.com/user-attachments/assets/2e125602-5792-4a00-9746-aef14f7377f3)
@@ -135,6 +139,15 @@ python -m eight_puzzle_solver.main
 ### Stochastic hill climbing
 
 ![Sto_HC](https://github.com/user-attachments/assets/8a9a7152-355c-46ac-aba3-bc0e84f1cf4a)
+
+### Test Algorithm
+
+![TestAlgo](https://github.com/user-attachments/assets/59f4023d-ad81-4943-b34f-ac5fa6113181)
+
+### Backtracking
+
+![BackTracking](https://github.com/user-attachments/assets/c3ed0468-49d1-4a95-aad8-00525e484e0a)
+
 
 ---
 ## Ảnh Minh Họa 🖼️
