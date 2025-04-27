@@ -21,22 +21,37 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 
 ## 🧠 Các Thuật Toán Hỗ Trợ
 
-| Thuật Toán                  | Loại              | Mô Tả                                                                 |
-|-----------------------------|-------------------|----------------------------------------------------------------------|
-| **BFS**                     | Không định hướng  | Tìm kiếm theo chiều rộng khám phá tất cả các nút ở độ sâu hiện tại trước khi chuyển sang độ sâu tiếp theo |
-| **DFS**                     | Không định hướng  | Tìm kiếm theo chiều sâu khám phá càng xa càng tốt theo mỗi nhánh trước khi quay lui |
-| **UCS**                     | Không định hướng  | Tìm kiếm chi phí đồng nhất mở rộng nút có chi phí đường đi thấp nhất |
-| **Greedy**                  | Có định hướng     | Tìm kiếm tham lam luôn chọn đường đi tốt nhất tại thời điểm hiện tại |
-| **A\***                     | Có định hướng     | A* kết hợp ưu điểm của UCS và Greedy bằng cách sử dụng cả chi phí đường đi và heuristic |
-| **IDA\***                   | Có định hướng     | Lặp sâu A* kết hợp tìm kiếm theo chiều sâu lặp với A* để tìm giải pháp tối ưu với bộ nhớ thấp hơn |
-| **Hill Climbing**           | Cục bộ            | Thuật toán leo đồi luôn di chuyển theo hướng tăng giá trị để đạt cực đại cục bộ |
-| **Simulated Annealing**     | Cục bộ            | Mô phỏng luyện kim đôi khi chấp nhận giải pháp tệ hơn để thoát khỏi cực đại cục bộ |
-| **Beam Search**             | Bộ nhớ giới hạn   | Tìm kiếm chùm giới hạn độ rộng của cây tìm kiếm để tiết kiệm bộ nhớ nhưng vẫn đảm bảo chất lượng giải pháp |
-| **And-Or Search**           | Cây AND-OR       | Tìm kiếm trên cây AND-OR để tìm giải pháp tối ưu |
-| **No Observation Search**   | Không quan sát    | Tìm kiếm trạng thái đích mà không có bất kỳ thông tin quan sát nào |
-| **Partial Observable Search** | Quan sát một phần | Tìm kiếm với trạng thái "quan sát được" một số ô trên bảng |
+| Thuật toán | Phân loại | Mô tả |
+|------------|-----------|-------|
+| **BFS** | Không định hướng | Khám phá tất cả các nút ở cùng độ sâu trước khi đi sâu hơn |
+| **DFS** | Không định hướng | Đi sâu nhất có thể theo một nhánh trước khi quay lui |
+| **UCS** | Không định hướng | Mở rộng nút có chi phí đường đi thấp nhất |
+| **Greedy** | Có định hướng | Dựa vào heuristic để đánh giá nút tốt nhất tại thời điểm hiện tại |
+| **A\*** | Có định hướng | Kết hợp chi phí thực tế và heuristic để tìm đường đi tối ưu |
+| **IDA\*** | Có định hướng | Kết hợp tìm kiếm sâu dần với A* để tiết kiệm bộ nhớ |
+| **Hill Climbing** | Cục bộ | Di chuyển theo hướng cải thiện giá trị để tìm cực đại cục bộ |
+| **Steepest-Ascent HC** | Cục bộ | Chọn nước đi với mức cải thiện lớn nhất |
+| **Stochastic HC** | Cục bộ | Chọn ngẫu nhiên trong các nước đi cải thiện |
+| **Simulated Annealing** | Cục bộ | Chấp nhận các giải pháp kém hơn với xác suất nhất định để thoát khỏi cực đại cục bộ |
+| **Beam Search** | Bộ nhớ giới hạn | Giữ k trạng thái tốt nhất ở mỗi độ sâu |
+| **And-Or Search** | Cây AND-OR | Giải quyết bài toán thông qua cây AND-OR |
+| **No Observation** | Không quan sát | Tìm kiếm không có thông tin quan sát |
+| **Partial Observable** | Quan sát một phần | Tìm kiếm với thông tin được quan sát một phần |
+| **Backtracking** | Quay lui | Thử các khả năng cho đến khi tìm được giải pháp hoặc hết khả năng |
 
 ---
+## 📊 So sánh hiệu suất thuật toán
+
+Với bảng 8-puzzle phức tạp (cần 20+ bước để giải):
+
+| Thuật toán | Thời gian giải (ms) | Bộ nhớ sử dụng | Số bước tối ưu |
+|------------|---------------------|----------------|---------------|
+| BFS        | 250-500             | Cao            | Luôn tối ưu   |
+| DFS        | 50-100              | Thấp           | Thường không tối ưu |
+| A*         | 100-200             | Trung bình     | Luôn tối ưu   |
+| IDA*       | 150-300             | Thấp           | Luôn tối ưu   |
+| Hill Climbing | 30-50            | Rất thấp       | Có thể bị kẹt |
+| Simulated Annealing | 100-150    | Rất thấp       | Thường gần tối ưu |
 
 ## Tính Năng ⚙️
 - **Chọn Thuật Toán**: Cung cấp lựa chọn cho người dùng để chọn thuật toán giải quyết bài toán.
@@ -92,13 +107,21 @@ python -m eight_puzzle_solver.main
 
 ---
 
-## Cấu Trúc Dự Án 🗂️
+## 🧩 Cấu trúc dự án
 
-- **`main.py`**: Điểm vào của ứng dụng, nơi các sự kiện và logic chính được xử lý.
-- **`gui.py`**: Các hàm liên quan đến giao diện người dùng của game.
-- **`algorithms.py`**: Chứa các thuật toán giải bài toán 8-puzzle.
-- **`utils.py`**: Các hàm hỗ trợ khác như tính toán khoảng cách Manhattan.
-
+```
+Eight_Puzzle_Solver/
+├── eight_puzzle_solver/
+│   ├── __init__.py
+│   ├── main.py          # Điểm vào chính của ứng dụng
+│   ├── gui.py           # Xử lý giao diện đồ họa
+│   ├── algorithms.py    # Các thuật toán giải 8-puzzle
+│   └── utils.py         # Các hàm tiện ích
+├── assets/              # Hình ảnh, âm thanh và tài nguyên
+├── tests/               # Unit tests
+├── requirements.txt     # Các thư viện phụ thuộc
+└── README.md            # Tài liệu dự án
+```
 ---
 ## Minh hoạ các thuật toán
 
@@ -157,7 +180,23 @@ python -m eight_puzzle_solver.main
 ![Game_Interface](https://github.com/ThanhSangLouis/Eight_Puzzle_Solver/blob/69e09b1446bb4296cbca4962fa26cefcacfed678/game_interface.png)
 
 ---
+## 🤝 Đóng góp
 
+Mọi đóng góp đều được hoan nghênh! Nếu bạn muốn đóng góp, vui lòng:
+
+1. Fork repository
+2. Tạo branch mới (`git checkout -b feature/amazing-feature`)
+3. Commit thay đổi (`git commit -m 'Add some amazing feature'`)
+4. Push lên branch (`git push origin feature/amazing-feature`)
+5. Mở Pull Request
+
+## 📞 Liên hệ
+
+Thanh Sang - [@ThanhSangLouis](https://github.com/ThanhSangLouis)
+
+Project Link: [https://github.com/ThanhSangLouis/Eight_Puzzle_Solver](https://github.com/ThanhSangLouis/Eight_Puzzle_Solver)
+
+---
 ## Cảm Ơn 🙏
 
 Cảm ơn bạn đã sử dụng **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
