@@ -100,11 +100,41 @@ python -m eight_puzzle_solver.main
 - **`utils.py`**: Các hàm hỗ trợ khác như tính toán khoảng cách Manhattan.
 
 ---
-### Enter input with BFS Algorithm
+## Minh hoạ các thuật toán
+
+### Enter input board with BFS Algorithm
 
 ![Use_with_BFS](https://github.com/user-attachments/assets/b89768a5-b798-40ac-b91a-17ab2bd7ba18)
 
+### DFS
 
+![DFS](https://github.com/user-attachments/assets/3475f27f-38ab-479c-8ee1-c3398b9a37bc)
+
+### UCS
+
+![UCS](https://github.com/user-attachments/assets/ccd7971c-8a6b-4936-88b2-60b64502d36c)
+
+### Greedy
+
+![Greedy](https://github.com/user-attachments/assets/0d8ad8f2-050a-43b1-9cb4-1f4408e461b0)
+
+### IDDFS
+
+![IDDFS](https://github.com/user-attachments/assets/8d6b945d-7bfe-4848-80d3-ba0763fbacec)
+
+### A*
+![AStar](https://github.com/user-attachments/assets/b775f791-56aa-410d-b07a-d47472143b31)
+
+### Hill Climbing
+
+![HillClimbing](https://github.com/user-attachments/assets/2e125602-5792-4a00-9746-aef14f7377f3)
+
+### Steepest-Ascent Hill Climbing
+![SA_HC](https://github.com/user-attachments/assets/0a25e2df-74d7-4f0f-a02a-d698dfead65a)
+
+### Stochastic hill climbing
+
+![Sto_HC](https://github.com/user-attachments/assets/8a9a7152-355c-46ac-aba3-bc0e84f1cf4a)
 
 ---
 ## Ảnh Minh Họa 🖼️
