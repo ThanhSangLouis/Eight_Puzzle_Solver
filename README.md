@@ -1,4 +1,14 @@
-# 8-Puzzle Solver Game 🎮
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/ab688f57-deb7-4268-b556-9c1435e86aed" alt="8-Puzzle Solver Logo" width="200"/>
+  <h1>8-Puzzle Solver Game 🧩</h1>
+  <p>Ứng dụng giải đố 8-puzzle với nhiều thuật toán AI</p>
+
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.x-blue.svg" alt="Python 3.x"></a>
+  <a href="https://www.pygame.org/"><img src="https://img.shields.io/badge/pygame-2.x-green.svg" alt="Pygame"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</div>
+
+---
 
 ## Giới Thiệu
 Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đố trò chơi 8-puzzle sử dụng các thuật toán tìm kiếm khác nhau. Game này hỗ trợ nhiều thuật toán giải quyết bài toán xếp hình, bao gồm:
@@ -13,52 +23,59 @@ Chào mừng đến với **8-Puzzle Solver** – một ứng dụng giải đ�
 - **Beam Search** 🌟
 - **And-Or Search** 🔀
 - **No Observation Search** ❓
-- **Partial Observable Search** 🔍
+- **Partial Observable**
+- **Test Algorithm** 🧪
+- **Backtracking** 🔄
 
 Ứng dụng được xây dựng bằng **Python** 🐍 và sử dụng **Pygame** 🎮 để phát triển giao diện đồ họa.
 
----
-
 ## 🧠 Các Thuật Toán Hỗ Trợ
 
-| Thuật toán | Phân loại | Mô tả |
-|------------|-----------|-------|
-| **BFS** | Không định hướng | Khám phá tất cả các nút ở cùng độ sâu trước khi đi sâu hơn |
-| **DFS** | Không định hướng | Đi sâu nhất có thể theo một nhánh trước khi quay lui |
-| **UCS** | Không định hướng | Mở rộng nút có chi phí đường đi thấp nhất |
-| **Greedy** | Có định hướng | Dựa vào heuristic để đánh giá nút tốt nhất tại thời điểm hiện tại |
-| **A\*** | Có định hướng | Kết hợp chi phí thực tế và heuristic để tìm đường đi tối ưu |
-| **IDA\*** | Có định hướng | Kết hợp tìm kiếm sâu dần với A* để tiết kiệm bộ nhớ |
-| **Hill Climbing** | Cục bộ | Di chuyển theo hướng cải thiện giá trị để tìm cực đại cục bộ |
-| **Steepest-Ascent HC** | Cục bộ | Chọn nước đi với mức cải thiện lớn nhất |
-| **Stochastic HC** | Cục bộ | Chọn ngẫu nhiên trong các nước đi cải thiện |
-| **Simulated Annealing** | Cục bộ | Chấp nhận các giải pháp kém hơn với xác suất nhất định để thoát khỏi cực đại cục bộ |
-| **Beam Search** | Bộ nhớ giới hạn | Giữ k trạng thái tốt nhất ở mỗi độ sâu |
-| **And-Or Search** | Cây AND-OR | Giải quyết bài toán thông qua cây AND-OR |
-| **No Observation** | Không quan sát | Tìm kiếm không có thông tin quan sát |
-| **Partial Observable** | Quan sát một phần | Tìm kiếm với thông tin được quan sát một phần |
-| **Backtracking** | Quay lui | Thử các khả năng cho đến khi tìm được giải pháp hoặc hết khả năng |
+| Thuật toán              | Phân loại         | Mô tả                                                                               |
+|-------------------------|-------------------|-------------------------------------------------------------------------------------|
+| **BFS**                 | Không định hướng  | Khám phá tất cả các nút ở cùng độ sâu trước khi đi sâu hơn                          |
+| **DFS**                 | Không định hướng  | Đi sâu nhất có thể theo một nhánh trước khi quay lui                                |
+| **UCS**                 | Không định hướng  | Mở rộng nút có chi phí đường đi thấp nhất                                           |
+| **Greedy**              | Có định hướng     | Dựa vào heuristic để đánh giá nút tốt nhất tại thời điểm hiện tại                   |
+| **IDDFS**               | Có định hướng     | Tìm kiếm chiều sâu với giới hạn độ sâu tăng dần, tránh việc lặp lại trạng thái      |
+| **A\***                 | Có định hướng     | Kết hợp chi phí thực tế và heuristic để tìm đường đi tối ưu                         |
+| **IDA\***               | Có định hướng     | Kết hợp tìm kiếm sâu dần với A* để tiết kiệm bộ nhớ                                 |
+| **Hill Climbing**       | Cục bộ            | Di chuyển theo hướng cải thiện giá trị để tìm cực đại cục bộ                        |
+| **Steepest-Ascent HC**  | Cục bộ            | Chọn nước đi với mức cải thiện tốt nhất                                             |
+| **Stochastic HC**       | Cục bộ            | Chọn ngẫu nhiên trong các nước đi cải thiện                                         |
+| **Simulated Annealing** | Cục bộ            | Chấp nhận các giải pháp kém hơn với xác suất nhất định để thoát khỏi cực đại cục bộ |
+| **Beam Search**         | Bộ nhớ giới hạn   | Giữ k trạng thái tốt nhất ở mỗi độ sâu                                              |
+| **And-Or Search**       | Cây AND-OR        | Giải quyết bài toán thông qua cây AND-OR                                            |
+| **No Observation**      | Không quan sát    | Tìm kiếm không có thông tin quan sát                                                |
+| **Partial Observable**  | Quan sát một phần | Tìm kiếm với thông tin được quan sát một phần                                       |
+| **Test Algorithm**      | Kiểm tra          | Thuật toán thử nghiệm các nước đi có giảm heuristic thì chọn đi                     |
+| **Backtracking**        | Quay lui          | Thử các khả năng cho đến khi tìm được giải pháp hoặc hết khả năng                   |
 
 ---
+
 ## 📊 So sánh hiệu suất thuật toán
 
 Với bảng 8-puzzle phức tạp (cần 20+ bước để giải):
 
-| Thuật toán | Thời gian giải (ms) | Bộ nhớ sử dụng | Số bước tối ưu |
-|------------|---------------------|----------------|---------------|
-| BFS        | 250-500             | Cao            | Luôn tối ưu   |
-| DFS        | 50-100              | Thấp           | Thường không tối ưu |
-| A*         | 100-200             | Trung bình     | Luôn tối ưu   |
-| IDA*       | 150-300             | Thấp           | Luôn tối ưu   |
-| Hill Climbing | 30-50            | Rất thấp       | Có thể bị kẹt |
-| Simulated Annealing | 100-150    | Rất thấp       | Thường gần tối ưu |
-
-## Tính Năng ⚙️
-- **Chọn Thuật Toán**: Cung cấp lựa chọn cho người dùng để chọn thuật toán giải quyết bài toán.
-- **Chế Độ Chỉnh Sửa**: Cho phép người dùng chỉnh sửa trạng thái ban đầu của puzzle (hoặc nhấp vào các ô hoặc cuộn con lăn chuột để thay đổi giá trị).
-- **Hiển Thị Tiến Trình**: Thể hiện số bước đi và thanh tiến trình khi thuật toán đang giải quyết bài toán.
-- **Hỗ Trợ Nhiều Thuật Toán**: Chạy nhiều thuật toán tìm kiếm với các tiêu chí khác nhau để giải bài toán.
-- **Giao Diện Đẹp**: Giao diện trực quan với các hiệu ứng đẹp mắt khi di chuyển các ô trong game.
+| Thuật toán               | Thời gian giải (ms) | Bộ nhớ sử dụng | Số bước tối ưu                                          |
+|--------------------------|---------------------|----------------|---------------------------------------------------------|
+| **BFS**                  | 250-500             | Cao            | Luôn tối ưu                                             |
+| **DFS**                  | 50-100              | Thấp           | Thường không tối ưu                                     |
+| **UCS**                  | 150-250             | Trung bình     | Luôn tối ưu                                             |
+| **Greedy**               | 50-150              | Thấp           | Thường không tối ưu                                     |
+| **IDDFS**                | 100-200             | Trung bình     | Luôn tối ưu                                             |
+| **A\***                  | 100-200             | Trung bình     | Luôn tối ưu                                             |
+| **IDA\***                | 150-300             | Thấp           | Luôn tối ưu                                             |
+| **Hill Climbing**        | 30-50               | Rất thấp       | Có thể bị kẹt                                           |
+| **Steepest-Ascent HC**   | 30-50               | Rất thấp       | Có thể bị kẹt                                           |
+| **Stochastic HC**        | 40-60               | Rất thấp       | Có thể bị kẹt                                           |
+| **Simulated Annealing**  | 100-150             | Rất thấp       | Thường gần tối ưu                                       |
+| **Beam Search**          | 100-250             | Trung bình     | Tìm được giải pháp tốt nhất                             |
+| **And-Or Search**        | 300-500             | Cao            | Tìm giải pháp tối ưu trong cây AND-OR                   |
+| **No Observation**       | 200-400             | Thấp           | Đưa ra kết quả chính xác trong điều kiện không quan sát |
+| **Partial Observable**   | 150-300             | Trung bình     | Đưa ra kết quả với thông tin quan sát một phần          |
+| **Test Algorithm**       | 50-100              | Thấp           | Có thể tìm giải pháp với các bước giảm heuristic        |
+| **Backtracking**         | 50-150              | Thấp           | Tìm tất cả các giải pháp khả thi                        |
 
 ---
 
@@ -200,7 +217,24 @@ Project Link: [https://github.com/ThanhSangLouis/Eight_Puzzle_Solver](https://gi
 ## Cảm Ơn 🙏
 
 Cảm ơn bạn đã sử dụng **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
+Chúc bạn chơi vui nhé! 🎮
 
 ---
+<div align="center">
+  <p>
+    <sub>Built with ❤️ by Thanh Sang</sub>
+  </p>
+  <p>
+    <a href="https://github.com/ThanhSangLouis/Eight_Puzzle_Solver/stargazers">
+      <img src="https://img.shields.io/github/stars/ThanhSangLouis/Eight_Puzzle_Solver?style=social" alt="Stars"/>
+    </a>
+    <a href="https://github.com/ThanhSangLouis/Eight_Puzzle_Solver/network/members">
+      <img src="https://img.shields.io/github/forks/ThanhSangLouis/Eight_Puzzle_Solver?style=social" alt="Forks"/>
+    </a>
+  </p>
+  <p>
+    <a href="#top">⬆️ Về đầu trang</a>
+  </p>
+</div>
+---
 
-Chúc bạn chơi vui nhé! 🎮
