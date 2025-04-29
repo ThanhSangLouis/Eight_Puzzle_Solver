@@ -2,7 +2,7 @@ from collections import deque
 import heapq
 import random
 import math
-from .utils import manhattan_distance
+from .utils import generate_random_state, manhattan_distance
 from heapq import heappop, heappush
 
 # Hàm giải thuật BFS (Breadth-First Search): tìm kiếm theo chiều rộng, mở rộng tất cả các trạng thái cùng một mức độ trước khi chuyển sang mức độ tiếp theo
@@ -10,19 +10,18 @@ def bfs_solve(start_state):
     return generic_solve(start_state, queue=deque([(start_state, [])]), pop_method='popleft')
 
 # Hàm giải thuật DFS (Depth-First Search): tìm kiếm theo chiều sâu, mở rộng các trạng thái theo chiều sâu trước khi quay lại
-def dfs_solve(start_state, max_depth=1000):
-    stack = [(start_state, [])]
+def dfs_solve(start_state, max_depth=100):
+    stack = [(start_state, [], 0)]  # Thêm một giá trị depth vào mỗi phần tử
     visited = set()
     visited.add(tuple(start_state))
 
     while stack:
-        state, path = stack.pop() 
+        state, path, depth = stack.pop()
 
         if state == list(range(1, 9)) + [0]:
             return path
 
-        
-        if len(path) >= max_depth:
+        if depth >= max_depth:  # Nếu chiều sâu vượt quá max_depth thì tiếp tục
             continue
 
         zero_idx = state.index(0)  
@@ -38,12 +37,12 @@ def dfs_solve(start_state, max_depth=1000):
                 new_state = state[:]
                 new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
 
-                
                 if tuple(new_state) not in visited:
                     visited.add(tuple(new_state))
-                    stack.append((new_state, path + [(zero_idx, new_idx)]))
+                    stack.append((new_state, path + [(zero_idx, new_idx)], depth + 1))  # Cập nhật chiều sâu
 
-    return None  
+    return None
+
 
 # Hàm giải thuật Generic Solve: hàm tổng quát cho các thuật toán tìm kiếm khác nhau
 def generic_solve(start_state, queue, pop_method='pop', is_priority=False):
@@ -674,30 +673,41 @@ def test_algorithms_solve(start_state):
 
 # Danh sách các bước di chuyển hợp lệ
 def get_next_states(state):
-    zero_idx = state.index(0)
-    moves = [-3, 3, -1, 1]
+    moves = [-3, 3, -1, 1]  # Các di chuyển: lên (-3), xuống (3), trái (-1), phải (1)
     next_states = []
+    zero_idx = state.index(0)  # Tìm vị trí của ô 0
 
     for move in moves:
         new_idx = zero_idx + move
+
+        # Kiểm tra xem ô mới có hợp lệ không (không ra ngoài ma trận 3x3)
         if 0 <= new_idx < 9 and (
-            (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
-            (move in [-3, 3])
+            (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or  # Không di chuyển sang ô ngoài cùng hàng
+            (move in [-3, 3])  # Di chuyển lên xuống
         ):
             new_state = state[:]
-            new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+            new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]  # Hoán đổi ô 0 với ô kế tiếp
             next_states.append((new_state, (zero_idx, new_idx)))
+
     return next_states
 
-# Tìm kiếm theo chiều sâu với backtracking
-def backtracking_search(start_state, max_depth=500):
+def backtracking_search(start_state, max_depth=50):
     goal_state = list(range(1, 9)) + [0]
     visited = set()
+
+    # Nếu start_state trống hoặc toàn None thì tự random ra
+    if not start_state or all(x is None for x in start_state):
+
+        start_state = generate_random_state()
+        print(f"Start state (auto-generated): {start_state}")
+    else:
+        print(f"Start state (input): {start_state}")
 
     def recursive_bt(state, path, depth):
         if state == goal_state:
             return path
-        if depth > max_depth:
+
+        if depth >= max_depth:
             return None
 
         visited.add(tuple(state))
@@ -711,4 +721,11 @@ def backtracking_search(start_state, max_depth=500):
         visited.remove(tuple(state))
         return None
 
-    return recursive_bt(start_state, [], 0)
+    solution = recursive_bt(start_state, [], 0)
+    if solution is None:
+        print("Không tìm thấy lời giải trong giới hạn độ sâu!")
+    else:
+        print(f"Đã tìm thấy lời giải với {len(solution)} bước.")
+
+    return solution
+

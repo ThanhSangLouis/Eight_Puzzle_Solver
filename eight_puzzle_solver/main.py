@@ -3,7 +3,7 @@
 
 import pygame
 from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_step_count, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
-from eight_puzzle_solver.algorithms import bfs_solve, dfs_solve, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
+from eight_puzzle_solver.algorithms import backtracking_search, bfs_solve, dfs_solve, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
 from eight_puzzle_solver.utils import generate_fixed_puzzle, is_movable
 
 # Initialize Pygame
@@ -68,16 +68,24 @@ def main():
                         input_state = [None] * 9
 
                     elif selected_algorithm == "apply":
-                        valid_input = sorted(filter(lambda x: x is not None, input_state)) == list(range(9))
-                        if valid_input:
-                            start_state = input_state[:]
-                            original_state = input_state[:]
+                        if selected_algorithm_name == "Backtracking Search":
+                            # Nếu chọn Backtracking thì không cần input hợp lệ
+                            start_state = [None] * 9  # Đưa Main board về trống
+                            original_state = [None] * 9
+                            input_state = [None] * 9
                             editing_state = False
-                            print(f"Trạng thái hợp lệ: {start_state}")
+                            print("Backtracking mode: Không yêu cầu trạng thái hợp lệ. Sử dụng trạng thái random.")
                         else:
-                            print("Trạng thái không hợp lệ. Vui lòng nhập đủ số từ 0 đến 8.")
-                            continue
-
+                            # Các thuật toán khác vẫn phải kiểm tra đủ 0–8
+                            valid_input = sorted(filter(lambda x: x is not None, input_state)) == list(range(9))
+                            if valid_input:
+                                start_state = input_state[:]
+                                original_state = input_state[:]
+                                editing_state = False
+                                print(f"Trạng thái hợp lệ: {start_state}")
+                            else:
+                                print("Trạng thái không hợp lệ. Vui lòng nhập đủ số từ 0 đến 8.")
+                                continue   
                     elif callable(selected_algorithm):
                         solving = True
                         solution = selected_algorithm(start_state)
