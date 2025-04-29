@@ -134,9 +134,7 @@ Eight_Puzzle_Solver/
 │   ├── gui.py           # Xử lý giao diện đồ họa
 │   ├── algorithms.py    # Các thuật toán giải 8-puzzle
 │   └── utils.py         # Các hàm tiện ích
-├── assets/              # Hình ảnh, âm thanh và tài nguyên
-├── tests/               # Unit tests
-├── requirements.txt     # Các thư viện phụ thuộc
+├── images/              # Hình ảnh
 └── README.md            # Tài liệu dự án
 ```
 ---
@@ -180,6 +178,24 @@ Eight_Puzzle_Solver/
 
 ![Sto_HC](https://github.com/user-attachments/assets/8a9a7152-355c-46ac-aba3-bc0e84f1cf4a)
 
+### Simulated Annealing
+
+![Simu](https://github.com/user-attachments/assets/ab7ed3c6-0ed9-47c2-8338-744e802b26f6)
+
+### Beam Search
+![Beam](https://github.com/user-attachments/assets/6efa88a7-c770-4ac0-af47-d45d716da5ae)
+
+### And-Or Search
+
+![AndOr](https://github.com/user-attachments/assets/a19821fc-25ab-4e56-a0f0-ec8b67c45631)
+
+### No Observation
+![NoObser](https://github.com/user-attachments/assets/6605b443-8229-4293-85a0-b86b506e089a)
+
+### Partial Observable
+
+![Partial](https://github.com/user-attachments/assets/5996b2f8-14e6-4219-bccb-30c867c258b9)
+
 ### Test Algorithm
 
 ![TestAlgo](https://github.com/user-attachments/assets/59f4023d-ad81-4943-b34f-ac5fa6113181)
@@ -188,13 +204,12 @@ Eight_Puzzle_Solver/
 
 ![BackTracking](https://github.com/user-attachments/assets/c3ed0468-49d1-4a95-aad8-00525e484e0a)
 
-
 ---
 ## Ảnh Minh Họa 🖼️
 
 ### Giao Diện Game
 
-![Game_Interface](https://github.com/ThanhSangLouis/Eight_Puzzle_Solver/blob/69e09b1446bb4296cbca4962fa26cefcacfed678/game_interface.png)
+![GameInterface](https://github.com/user-attachments/assets/b8045e20-910b-4c29-9b21-37a7b4316aee)
 
 ---
 ## 🤝 Đóng góp
