@@ -138,70 +138,110 @@ Eight_Puzzle_Solver/
 └── README.md            # Tài liệu dự án
 ```
 ---
-## Minh hoạ các thuật toán
+## 🌟 Minh hoạ các thuật toán tìm kiếm
 
-### Enter input board with BFS Algorithm
+> 🧠 Các hình ảnh trực quan mô phỏng cách hoạt động của các thuật toán trong việc giải bài toán 8-Puzzle.
 
-![Use_with_BFS](https://github.com/user-attachments/assets/b89768a5-b798-40ac-b91a-17ab2bd7ba18)
+---
 
-### DFS
+### 🔍 **BFS – Tìm kiếm theo chiều rộng**  
+📚 Duyệt theo từng lớp, mở rộng tất cả các đỉnh ở cùng độ sâu trước khi đi sâu hơn.  
+![BFS](https://github.com/user-attachments/assets/b89768a5-b798-40ac-b91a-17ab2bd7ba18)
 
+---
+
+### 🧭 **DFS – Tìm kiếm theo chiều sâu**  
+🌊 Đi sâu nhất có thể theo từng nhánh trước khi quay lại.  
 ![DFS](https://github.com/user-attachments/assets/3475f27f-38ab-479c-8ee1-c3398b9a37bc)
 
-### UCS
+---
 
+### 💰 **UCS – Tìm kiếm theo chi phí đồng đều**  
+📈 Luôn chọn mở rộng nút có chi phí thấp nhất.  
 ![UCS](https://github.com/user-attachments/assets/ccd7971c-8a6b-4936-88b2-60b64502d36c)
 
-### Greedy
+---
 
+### 🎯 **Greedy – Tìm kiếm tham lam**  
+🚀 Ưu tiên chọn nút gần đích nhất theo hàm heuristic.  
 ![Greedy](https://github.com/user-attachments/assets/0d8ad8f2-050a-43b1-9cb4-1f4408e461b0)
 
-### IDDFS
+---
 
+### 🔁 **IDDFS – Tìm kiếm chiều sâu lặp lại**  
+🔄 Kết hợp DFS và BFS bằng cách lặp DFS theo từng mức độ sâu tăng dần.  
 ![IDDFS](https://github.com/user-attachments/assets/8d6b945d-7bfe-4848-80d3-ba0763fbacec)
 
-### A*
+---
+
+### 🌟 **A\* – Tìm kiếm A sao**  
+🧮 Kết hợp giữa chi phí thực tế và ước lượng đến đích để tìm đường tốt nhất.  
 ![AStar](https://github.com/user-attachments/assets/b775f791-56aa-410d-b07a-d47472143b31)
 
-### IDA*
+---
 
+### 💫 **IDA\* – Tìm kiếm A sao lặp lại**  
+⏳ Phiên bản tiết kiệm bộ nhớ của A\*, thực hiện theo tầng.  
 ![IDAStar](https://github.com/user-attachments/assets/8755251d-c694-4356-94ad-d7e0d6800df7)
 
-### Hill Climbing
+---
 
+### 🧗 **Hill Climbing – Leo đồi**  
+📈 Luôn di chuyển đến trạng thái tốt hơn nếu có.  
 ![HillClimbing](https://github.com/user-attachments/assets/2e125602-5792-4a00-9746-aef14f7377f3)
 
-### Steepest-Ascent Hill Climbing
+---
+
+### 🏔️ **Steepest-Ascent Hill Climbing**  
+🔝 Chọn trạng thái tốt nhất trong tất cả hàng xóm.  
 ![SA_HC](https://github.com/user-attachments/assets/0a25e2df-74d7-4f0f-a02a-d698dfead65a)
 
-### Stochastic hill climbing
+---
 
+### 🎲 **Stochastic Hill Climbing**  
+🎰 Chọn ngẫu nhiên trong các trạng thái tốt hơn.  
 ![Sto_HC](https://github.com/user-attachments/assets/8a9a7152-355c-46ac-aba3-bc0e84f1cf4a)
 
-### Simulated Annealing
+---
 
+### ❄️ **Simulated Annealing – Tìm kiếm tôi luyện**  
+🔥 Chấp nhận trạng thái tệ hơn để thoát khỏi cực trị cục bộ.  
 ![Simu](https://github.com/user-attachments/assets/ab7ed3c6-0ed9-47c2-8338-744e802b26f6)
 
-### Beam Search
+---
+
+### 🌬️ **Beam Search – Tia sáng**  
+🪞 Duy trì K trạng thái tốt nhất tại mỗi cấp độ.  
 ![Beam](https://github.com/user-attachments/assets/6efa88a7-c770-4ac0-af47-d45d716da5ae)
 
-### And-Or Search
+---
 
+### 🤝 **And-Or Search**  
+🔀 Phù hợp cho bài toán có nhiều khả năng lựa chọn và rẽ nhánh.  
 ![AndOr](https://github.com/user-attachments/assets/a19821fc-25ab-4e56-a0f0-ec8b67c45631)
 
-### No Observation
+---
+
+### 👁️‍🗨️ **No Observation – Không quan sát**  
+🙈 Giải trong điều kiện không biết rõ trạng thái ban đầu.  
 ![NoObser](https://github.com/user-attachments/assets/6605b443-8229-4293-85a0-b86b506e089a)
 
-### Partial Observable
+---
 
+### 🕵️ **Partial Observable – Quan sát không đầy đủ**  
+🧩 Xử lý bài toán khi chỉ biết một phần trạng thái môi trường.  
 ![Partial](https://github.com/user-attachments/assets/5996b2f8-14e6-4219-bccb-30c867c258b9)
 
-### Test Algorithm
+---
 
+### 🧪 **Test Algorithm – Thuật toán kiểm thử**  
+🔬 Mô phỏng thử nghiệm thuật toán mới hoặc logic tùy chỉnh.  
 ![TestAlgo](https://github.com/user-attachments/assets/59f4023d-ad81-4943-b34f-ac5fa6113181)
 
-### Backtracking
+---
 
+### 🔙 **Backtracking – Quay lui** ❤️ **ADVANCED ALGORITHM**
+🔁 Tìm kiếm bằng cách thử và quay lại khi rơi vào ngõ cụt.  
 ![Backing](https://github.com/user-attachments/assets/abc81e2d-a3d9-4818-809f-a88eb5673ed2)
 
 
