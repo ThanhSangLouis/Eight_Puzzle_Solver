@@ -4,6 +4,7 @@ import random
 import math
 from .utils import generate_random_state, manhattan_distance
 from heapq import heappop, heappush
+from .utils import is_solvable
 
 # Hàm giải thuật BFS (Breadth-First Search): tìm kiếm theo chiều rộng, mở rộng tất cả các trạng thái cùng một mức độ trước khi chuyển sang mức độ tiếp theo
 def bfs_solve(start_state):
@@ -535,7 +536,6 @@ def no_observation_search(start_state):
     path = []                             # Lưu đường đi từ trạng thái ban đầu đến trạng thái hiện tại
     MAX_DEPTH = 50                        # Giới hạn độ sâu tránh tràn stack
 
-    # Hàm đệ quy thực hiện tìm kiếm trạng thái đích bằng cách duyệt qua các trạng thái kế tiếp
     def explore(state, depth=0):
         if state == goal_state:
             return True
@@ -546,7 +546,7 @@ def no_observation_search(start_state):
         zero_idx = state.index(0)
         moves = [-3, 3, -1, 1]  # Lên, xuống, trái, phải
 
-        # Ưu tiên di chuyển tới gần đích hơn (theo Manhattan distance)
+        # Tạo danh sách các trạng thái lân cận
         next_states = []
         for move in moves:
             new_idx = zero_idx + move
@@ -555,7 +555,6 @@ def no_observation_search(start_state):
             ):
                 new_state = state[:]
                 new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
-                # Nếu trạng thái mới chưa được duyệt thì thêm vào danh sách next_states
                 if tuple(new_state) not in visited:
                     next_states.append((new_state, (zero_idx, new_idx)))
 
@@ -563,8 +562,8 @@ def no_observation_search(start_state):
         next_states.sort(key=lambda x: manhattan_distance(x[0]))
 
         for new_state, move in next_states:
-            path.append(move) # Thêm bước di chuyển vào đường đi
-            if explore(new_state, depth + 1): # Gọi đệ quy để tiếp tục tìm trạng thái mới
+            path.append(move)  # Thêm bước di chuyển vào đường đi
+            if explore(new_state, depth + 1):
                 return True
             path.pop()
 
@@ -691,41 +690,122 @@ def get_next_states(state):
 
     return next_states
 
-def backtracking_search(start_state, max_depth=50):
-    goal_state = list(range(1, 9)) + [0]
-    visited = set()
+def backtracking_csp():
+    nodes_expanded = [0]
+    max_depth = [0]
+    path = []
 
-    # Nếu start_state trống hoặc toàn None thì tự random ra
-    if not start_state or all(x is None for x in start_state):
+    variables = [f"X{i+1}" for i in range(9)]
+    domains = {var: list(range(9)) for var in variables}
 
-        start_state = generate_random_state()
-        print(f"Start state (auto-generated): {start_state}")
+    # Shuffle domains for random order
+    for var in domains:
+        random.shuffle(domains[var])
+
+    constraints = create_constraints()
+
+    csp = {
+        'variables': variables,
+        'domains': domains,
+        'constraints': constraints,
+        'initial_assignment': {}
+    }
+
+    result = backtrack({}, 0, csp, nodes_expanded, max_depth, path)
+
+    if result:
+        solution_grid = [[0 for _ in range(3)] for _ in range(3)]
+        for var, value in result.items():
+            idx = int(var[1:]) - 1
+            row, col = divmod(idx, 3)
+            solution_grid[row][col] = value
+
+        return {
+            'path': path,
+            'nodes_expanded': nodes_expanded[0],
+            'max_depth': max_depth[0],
+            'solution': solution_grid
+        }
     else:
-        print(f"Start state (input): {start_state}")
+        return {
+            'path': [],
+            'nodes_expanded': nodes_expanded[0],
+            'max_depth': max_depth[0],
+            'solution': None
+        }
 
-    def recursive_bt(state, path, depth):
-        if state == goal_state:
-            return path
+def create_constraints():
+    constraints = []
 
-        if depth >= max_depth:
-            return None
+    # Vertical constraints (X1 with X4, X2-X5,...)
+    top_bottom_pairs = [
+        ('X1', 'X4'), ('X2', 'X5'), ('X3', 'X6'),
+        ('X4', 'X7'), ('X5', 'X8')
+    ]
+    for top, bottom in top_bottom_pairs:
+        constraints.append((top, bottom, lambda t, b: b == t + 3 and t != 0))
 
-        visited.add(tuple(state))
+    # Horizontal constraints (X1-X2, X2-X3, X4-X5,...)
+    left_right_pairs = [
+        ('X1', 'X2'), ('X2', 'X3'),
+        ('X4', 'X5'), ('X5', 'X6'),
+        ('X7', 'X8')
+    ]
+    for left, right in left_right_pairs:
+        constraints.append((left, right, lambda l, r: r == l + 1 and l != 0))
 
-        for next_state, move in get_next_states(state):
-            if tuple(next_state) not in visited:
-                result = recursive_bt(next_state, path + [move], depth + 1)
-                if result is not None:
-                    return result
+    return constraints
 
-        visited.remove(tuple(state))
-        return None
+def is_consistent(var, value, assignment, csp):
+    if value in assignment.values():
+        return False
 
-    solution = recursive_bt(start_state, [], 0)
-    if solution is None:
-        print("Không tìm thấy lời giải trong giới hạn độ sâu!")
-    else:
-        print(f"Đã tìm thấy lời giải với {len(solution)} bước.")
+    temp_assignment = assignment.copy()
+    temp_assignment[var] = value
 
-    return solution
+    for constraint in csp['constraints']:
+        if len(constraint) == 3:
+            var1, var2, constraint_func = constraint
+            if var1 in temp_assignment and var2 in temp_assignment:
+                if not constraint_func(temp_assignment[var1], temp_assignment[var2]):
+                    return False
+
+    return True
+
+def backtrack(assignment, index, csp, nodes_expanded, max_depth, path):
+    nodes_expanded[0] += 1
+    max_depth[0] = max(max_depth[0], len(assignment))
+
+    if assignment:
+        grid = [[None for _ in range(3)] for _ in range(3)]
+        for var, value in assignment.items():
+            idx = int(var[1:]) - 1
+            row, col = divmod(idx, 3)
+            grid[row][col] = value
+        path.append(grid)
+
+    if index == len(csp['variables']):
+        final_state = tuple(assignment[f"X{i+1}"] for i in range(9))
+        return assignment if is_solvable(final_state) else None
+
+    var = csp['variables'][index]
+
+    for value in csp['domains'][var]:
+        if is_consistent(var, value, assignment, csp):
+            assignment[var] = value
+            # Ensure only valid moves (zero_idx, move_idx) are appended to the path
+            if len(assignment) > 1:
+                prev_var = csp['variables'][index - 1]
+                prev_idx = int(prev_var[1:]) - 1
+                zero_idx = prev_idx
+                move_idx = int(var[1:]) - 1
+                if zero_idx != move_idx and 0 <= zero_idx < 9 and 0 <= move_idx < 9:
+                    path.append((zero_idx, move_idx))
+            result = backtrack(assignment, index + 1, csp, nodes_expanded, max_depth, path)
+            if result:
+                return result
+            del assignment[var]
+
+    return None
+
 

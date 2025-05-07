@@ -4,7 +4,7 @@
 import pygame
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve, backtracking_search
+from .algorithms import and_or_search, backtracking_csp, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve
 
 # Initialize Pygame
 pygame.init()
@@ -42,7 +42,11 @@ def draw_board(state):
     pygame.draw.rect(WINDOW, board_color, board_rect, border_radius=10)
 
     mouse_pos = pygame.mouse.get_pos()
-    zero_idx = state.index(0)
+    try:
+        zero_idx = state.index(0)
+    except ValueError:
+        print("Error: State does not contain a zero tile.")
+        return  # Safeguard to prevent crashes if 0 is missing
 
     for i, num in enumerate(state):
         x, y = (i % 3) * TILE_SIZE + PADDING, (i // 3) * TILE_SIZE + PADDING
@@ -132,7 +136,9 @@ def draw_input_board(state):
             pygame.draw.rect(WINDOW, (255, 255, 255), tile_rect, width=3, border_radius=15)
         num = state[i]
         if num is not None:
-            text = tile_font.render(str(num), True, white)
+            font_size = 30 if num == "None" else 60  # Adjust font size for 'None'
+            text_font = pygame.font.SysFont("arial", font_size, bold=True)
+            text = text_font.render(str(num), True, white)
             text_rect = text.get_rect(center=(x + TILE_SIZE // 2, y + TILE_SIZE // 2))
             WINDOW.blit(text, text_rect)
 
@@ -179,7 +185,7 @@ def get_clicked_button(pos):
         ("No Observation", no_observation_search),
         ("Partial Obser", partial_observable_search),
         ("Test Algo", test_algorithms_solve),
-        ("Backtracking", backtracking_search),
+        ("Backtracking", backtracking_csp),
         ("Reset", "reset"),
         ("Apply", "apply")
     ]
