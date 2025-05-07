@@ -202,7 +202,8 @@ Eight_Puzzle_Solver/
 
 ### Backtracking
 
-![BackTracking](https://github.com/user-attachments/assets/c3ed0468-49d1-4a95-aad8-00525e484e0a)
+![Backing](https://github.com/user-attachments/assets/abc81e2d-a3d9-4818-809f-a88eb5673ed2)
+
 
 ---
 ## Ảnh Minh Họa 🖼️
