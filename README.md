@@ -244,6 +244,8 @@ Eight_Puzzle_Solver/
 🔁 Tìm kiếm bằng cách thử và quay lại khi rơi vào ngõ cụt.  
 ![Backing](https://github.com/user-attachments/assets/abc81e2d-a3d9-4818-809f-a88eb5673ed2)
 
+### AC3
+![ac3](https://github.com/user-attachments/assets/0f3f8569-2966-415c-a2f3-8bcb827e6976)
 
 ---
 ## Ảnh Minh Họa 🖼️
