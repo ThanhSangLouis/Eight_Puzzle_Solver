@@ -1651,3 +1651,88 @@ def q_learning_solve(start_state, episodes=5000, alpha=0.1, gamma=0.9, epsilon=0
             return path
 
     return path if state == goal_state else None
+
+# Hàm giải thuật Constraint Checking: giải 8-puzzle sử dụng thuật toán kiểm tra ràng buộc
+def constraint_checking_solve():
+    from random import shuffle
+    nodes_expanded = [0]
+    path = []
+
+    variables = [f"X{i+1}" for i in range(9)]
+    domains = {var: list(range(9)) for var in variables}
+    for var in domains:
+        shuffle(domains[var])  # xáo trộn để tránh bias
+
+    constraints = create_constraints()
+
+    csp = {
+        'variables': variables,
+        'domains': domains,
+        'constraints': constraints,
+        'initial_assignment': {}
+    }
+
+    def is_consistent(var, value, assignment, csp):
+        if value in assignment.values():
+            return False
+        for (v1, v2, func) in csp['constraints']:
+            if v1 == var and v2 in assignment:
+                if not func(value, assignment[v2]):
+                    return False
+            elif v2 == var and v1 in assignment:
+                if not func(assignment[v1], value):
+                    return False
+        return True
+
+    def backtrack(assignment, index, path, max_depth):
+        nodes_expanded[0] += 1
+
+        # Lưu lại trạng thái hiện tại để hiển thị quá trình tìm kiếm
+        current_grid = [[0 for _ in range(3)] for _ in range(3)]
+        for var, val in assignment.items():
+            idx = int(var[1:]) - 1
+            row, col = divmod(idx, 3)
+            current_grid[row][col] = val
+        path.append(current_grid)
+
+        if index == len(variables):
+            return assignment
+
+        # Giới hạn độ sâu để không tìm quá lâu
+        if len(path) > max_depth:
+            return None
+
+        var = variables[index]
+        for val in domains[var]:
+            if is_consistent(var, val, assignment, csp):
+                assignment[var] = val
+                result = backtrack(assignment, index + 1, path, max_depth)
+                if result:
+                    return result
+                del assignment[var]
+        return None
+
+    # Thêm tham số path và max_depth vào lời gọi backtrack
+    result = backtrack({}, 0, path, max_depth=50)
+    if result:
+        grid = [[0 for _ in range(3)] for _ in range(3)]
+        for var, value in result.items():
+            idx = int(var[1:]) - 1
+            row, col = divmod(idx, 3)
+            grid[row][col] = value
+
+        # Thêm trạng thái cuối cùng vào path
+        if path and path[-1] != grid:
+            path.append(grid)
+
+        return {
+            'solution': grid,
+            'nodes_expanded': nodes_expanded[0],
+            'path': path
+        }
+    else:
+        return {
+            'solution': None,
+            'nodes_expanded': nodes_expanded[0],
+            'path': path
+        }

@@ -6,7 +6,7 @@ from eight_puzzle_solver.utils import generate_fixed_puzzle
 import pygame
 from collections import deque
 from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_step_count, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
-from eight_puzzle_solver.algorithms import ac3, bfs_solve, create_consistent_state, create_constraints, dfs_solve, find_solution_path, perform_ac3_with_solution, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
+from eight_puzzle_solver.algorithms import ac3, bfs_solve, constraint_checking_solve, create_consistent_state, create_constraints, dfs_solve, find_solution_path, perform_ac3_with_solution, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
 from eight_puzzle_solver.algorithms import backtracking_csp, ac3_solve, genetic_algorithm_solve, q_learning_solve
 
 # Initialize Pygame
@@ -178,7 +178,25 @@ def main():
                                 solving = False
                                 selected_algorithm_name += " (No Solution)"
                                 print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
-                        
+                        elif selected_algorithm_name == "Const Checking":
+                            solving = True
+                            result = constraint_checking_solve()
+                            if result and result['solution']:
+                                solution_path = result['path']
+                                step = 0
+                                step_count = 0
+
+                                # Animate the solution path step by step
+                                for state in solution_path:
+                                    start_state[:] = [val for row in state for val in row]
+                                    draw_board(start_state)
+                                    pygame.display.flip()
+                                    pygame.time.delay(500)  # Delay to visualize each step
+
+                                print(f"Solution found after expanding {result['nodes_expanded']} nodes!")
+                            else:
+                                print("No solution found using Constraint Checking.")
+                            solving = False
                         elif selected_algorithm_name == "AC3":
                             solving = True
                             print("Running AC3 algorithm to create and solve a valid 8-puzzle state...")
