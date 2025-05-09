@@ -7,7 +7,7 @@ import pygame
 from collections import deque
 from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_step_count, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
 from eight_puzzle_solver.algorithms import ac3, bfs_solve, create_consistent_state, create_constraints, dfs_solve, find_solution_path, perform_ac3_with_solution, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
-from eight_puzzle_solver.algorithms import backtracking_csp, ac3_solve, genetic_algorithm_solve
+from eight_puzzle_solver.algorithms import backtracking_csp, ac3_solve, genetic_algorithm_solve, q_learning_solve
 
 # Initialize Pygame
 pygame.init()
@@ -152,10 +152,19 @@ def main():
                                 print("Không thể sinh trạng thái hợp lệ bằng Backtracking CSP.")
                             # Removed the return statement to prevent premature exit
                             solving = False  # Ensure solving is set to False if no solution is found
-                               
                         elif selected_algorithm_name == "Genetic Algo":
                             solving = True
                             solution = genetic_algorithm_solve(start_state)
+                            step = 0
+                            if solution is None:
+                                solving = False
+                                selected_algorithm_name += " (No Solution)"
+                                print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
+                        elif selected_algorithm_name == "Q-Learning":
+                            solving = True
+                            print("Đang chạy thuật toán Q-Learning...")
+                            # Giới hạn số tập huấn luyện để không mất quá nhiều thời gian
+                            solution = q_learning_solve(start_state, episodes=5000, alpha=0.1, gamma=0.9, epsilon=0.2)
                             step = 0
                             if solution is None:
                                 solving = False

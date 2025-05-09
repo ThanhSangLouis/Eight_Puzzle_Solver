@@ -4,7 +4,7 @@
 import pygame
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, backtracking_csp, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve, ac3, genetic_algorithm_solve
+from .algorithms import and_or_search, backtracking_csp, bfs_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve, ac3, genetic_algorithm_solve, q_learning_solve
 
 # Initialize Pygame
 pygame.init()
@@ -74,13 +74,13 @@ def draw_buttons():
     buttons = ["BFS", "DFS", "UCS", "Greedy", "IDDFS", 
                "A*", "IDA*", "Hill Climbing", "SA HC", "Stochastic HC", 
                "Simu Annealing", "Beam Search", "And-Or Search",
-               "No Observation", "Partial Obser", "Test Algo", "Backtracking", "AC3", "Genetic", "Reset", "Apply"]
+               "No Observation", "Partial Obser", "Test Algo", "Backtracking", "AC3", "Genetic", "Q-Learning", "Reset", "Apply"]
     
     colors = [button_color] * (len(buttons) - 2) + [reset_color, reset_color]
     hover_colors = [button_hover_color] * (len(buttons) - 2) + [reset_hover_color, reset_hover_color]
 
     button_width, button_height = 200, 50
-    spacing = 10
+    spacing = 5
 
     # Chia đều nút giữa 2 cột
     col_count = 2
@@ -166,11 +166,11 @@ def get_clicked_input_cell(pos):
 def get_clicked_button(pos):
     button_width = 200
     button_height = 50
-    spacing = 10
+    spacing = 5
     start_y = PADDING
     start_x1 = WIDTH - 2 * button_width - 60
     start_x2 = WIDTH - button_width - 40
-
+    
     algorithms = [
         ("BFS", bfs_solve), 
         ("DFS", dfs_solve), 
@@ -191,6 +191,7 @@ def get_clicked_button(pos):
         ("Backtracking", backtracking_csp), 
         ("AC3", ac3),
         ("Genetic", genetic_algorithm_solve),
+        ("Q-Learning", q_learning_solve),
         ("Reset", "reset"),
         ("Apply", "apply")
     ]

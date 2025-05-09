@@ -1565,3 +1565,89 @@ def genetic_algorithm_solve(start_state, population_size=200, max_generations=50
 
     print("Không tìm được trạng thái goal. Trả về đường đi tốt nhất.")
     return best_path if best_path else None
+
+# Hàm giải thuật Q-Learning: giải 8-puzzle sử dụng thuật toán học tăng cường
+def q_learning_solve(start_state, episodes=5000, alpha=0.1, gamma=0.9, epsilon=0.2):
+    import random
+    from collections import defaultdict
+
+    goal_state = tuple([1, 2, 3, 4, 5, 6, 7, 8, 0])
+    # Bước 1: Khởi tạo Q-table và điền các giá trị ban đầu
+    Q = defaultdict(lambda: [0, 0, 0, 0])  # Q(s,a) với 4 hành động: up, down, left, right
+    actions = [(-3, 0), (3, 1), (-1, 2), (1, 3)]  # (di chuyển, chỉ số hành động)
+
+    # Hàm xác định hành động hợp lệ từ trạng thái hiện tại
+    def get_valid_actions(state):
+        zero = state.index(0)
+        valid = []
+        for move, idx in actions:
+            new_zero = zero + move
+            if 0 <= new_zero < 9:
+                if abs(zero % 3 - new_zero % 3) + abs(zero // 3 - new_zero // 3) == 1:
+                    valid.append((move, idx))
+        return valid
+
+    # Hàm hoán đổi vị trí của ô trống (0) với ô bên cạnh -> trả về trạng thái mới
+    def step(state, move):
+        zero = state.index(0)
+        new_zero = zero + move
+        new_state = list(state)
+        new_state[zero], new_state[new_zero] = new_state[new_zero], new_state[zero]
+        return tuple(new_state)
+
+    # Bước 2: Vòng lặp học theo số lượng episode
+    for ep in range(episodes):
+        state = tuple(start_state)
+
+        for _ in range(100):  # Tối đa 50 bước mỗi episode
+            # Bước 3: Chọn tác nhân thực hiện hành động lên trạng thái s(k)
+            valid = get_valid_actions(state)
+            if not valid:
+                break
+
+            if random.random() < epsilon:
+                move, a = random.choice(valid)
+            else:
+                best = max(valid, key=lambda m: Q[state][m[1]]) # Chọn hành động tốt nhất dựa trên Q-value
+                move, a = best
+
+            # Bước 5: chuyển sang trạng thái mới
+            next_state = step(state, move)
+
+            # Bước 4: tính phần thưởng
+            reward = 100 if next_state == goal_state else -1
+
+            # Bước 6: cập nhật Q-value theo công thức
+            max_q_next = max(Q[next_state])
+            Q[state][a] += alpha * (reward + gamma * max_q_next - Q[state][a])
+
+            state = next_state
+
+            # Bước 7: kết thúc nếu đến goal
+            if state == goal_state:
+                break
+
+        # Bước 8: reset môi trường là implicit khi bắt đầu vòng lặp mới
+
+    # Sau khi học xong, giải bằng cách dùng Q-value
+    path = []
+    state = tuple(start_state)
+    visited = set()
+    for _ in range(50):
+        visited.add(state)
+        valid = get_valid_actions(state)
+        if not valid:
+            break
+
+        best = max(valid, key=lambda m: Q[state][m[1]])
+        move, a = best
+        zero = state.index(0)
+        new_zero = zero + move
+        path.append((zero, new_zero))
+        state = step(state, move)
+        if state in visited:
+            break
+        if state == goal_state:
+            return path
+
+    return path if state == goal_state else None
