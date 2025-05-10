@@ -4,7 +4,7 @@
 import pygame
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, backtracking_csp, bfs_solve, constraint_checking_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, test_algorithms_solve, ac3, genetic_algorithm_solve, q_learning_solve
+from .algorithms import and_or_search, backtracking_csp, bfs_solve, constraint_checking_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search,  ac3, genetic_algorithm_solve, q_learning_solve
 
 # Initialize Pygame
 pygame.init()
@@ -254,3 +254,11 @@ def draw_tile_with_gradient(surface, rect):
         ]
         pygame.draw.line(surface, color, (rect.x, rect.y + y), (rect.x + rect.width - 1, rect.y + y), 1)
     pygame.draw.rect(surface, (255, 255, 255), rect, width=2, border_radius=15)
+
+def draw_and_or_state(state):
+    """
+    Hiển thị trạng thái hiện tại trong quá trình thực thi thuật toán AND-OR Search.
+    """
+    draw_board(state)
+    pygame.display.flip()
+    pygame.time.delay(500)  # Delay để người dùng có thể quan sát trạng thái

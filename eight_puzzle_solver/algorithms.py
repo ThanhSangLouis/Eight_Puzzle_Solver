@@ -6,6 +6,7 @@ import time
 from .utils import generate_random_state, manhattan_distance
 from heapq import heappop, heappush
 from .utils import is_solvable
+import pygame
 
 # Hàm giải thuật BFS (Breadth-First Search): tìm kiếm theo chiều rộng, mở rộng tất cả các trạng thái cùng một mức độ trước khi chuyển sang mức độ tiếp theo
 def bfs_solve(start_state):
@@ -389,13 +390,13 @@ def simulated_annealing_solve(start_state):
 
                 if h < best_h:
                     best_h = h
-                    best_move = (zero_idx, new_idx)
+                    best_move = move
                     best_state = temp
 
         if best_move:
             # Có hướng tốt hơn → đi theo HC
             state = best_state
-            path.append(best_move)
+            path.append((zero_idx, zero_idx + best_move))
         else:
             # Không có hướng đi tốt hơn → dùng SA để thoát
             if not neighbors:
@@ -447,90 +448,130 @@ def beam_search_solve(start_state, beam_width=2):
         queue = [heappop(next_level) for _ in range(min(beam_width, len(next_level)))]
 
     return None  # Không tìm thấy lời giải
-def and_or_search(initial_state):
-    goal_state = list(range(1, 9)) + [0]  # Trạng thái mục tiêu [1, 2, 3, 4, 5, 6, 7, 8, 0]
-    visited = set()  # Lưu trạng thái đã duyệt để tránh lặp vô hạn
-    
-    # Hàm kiểm tra khả năng giải được của trạng thái
-    def is_solvable(state):
-        # Tính số nghịch thế (inversion)
-        inversions = 0
-        for i in range(len(state)):
-            if state[i] == 0:
-                continue
-            for j in range(i + 1, len(state)):
-                if state[j] != 0 and state[i] > state[j]:
-                    inversions += 1
-        return inversions % 2 == 0
-    
-    # Nếu trạng thái ban đầu không thể giải được, trả về None
-    if not is_solvable(initial_state) and is_solvable(goal_state):
-        return None
-    
-    # Hàm tạo ra các trạng thái kế tiếp hợp lệ
-    def get_next_states(state):
-        zero_idx = state.index(0)
-        moves = []
-        # Kiểm tra 4 hướng di chuyển: lên, xuống, trái, phải
-        
-        # Di chuyển lên
-        if zero_idx >= 3:
-            new_state = state.copy()
-            new_state[zero_idx], new_state[zero_idx - 3] = new_state[zero_idx - 3], new_state[zero_idx]
-            moves.append((new_state, (zero_idx, zero_idx - 3)))
-        
-        # Di chuyển xuống
-        if zero_idx < 6:
-            new_state = state.copy()
-            new_state[zero_idx], new_state[zero_idx + 3] = new_state[zero_idx + 3], new_state[zero_idx]
-            moves.append((new_state, (zero_idx, zero_idx + 3)))
-        
-        # Di chuyển sang trái
-        if zero_idx % 3 != 0:
-            new_state = state.copy()
-            new_state[zero_idx], new_state[zero_idx - 1] = new_state[zero_idx - 1], new_state[zero_idx]
-            moves.append((new_state, (zero_idx, zero_idx - 1)))
-        
-        # Di chuyển sang phải
-        if zero_idx % 3 != 2:
-            new_state = state.copy()
-            new_state[zero_idx], new_state[zero_idx + 1] = new_state[zero_idx + 1], new_state[zero_idx]
-            moves.append((new_state, (zero_idx, zero_idx + 1)))
-        
-        return moves
-    
-    # Hàm đệ quy để duyệt cây AND-OR
-    def recursive_dfs(state, depth=0, max_depth=30):
-        if state == goal_state:
-            return []  # Đã tìm thấy mục tiêu, trả về danh sách rỗng
-        
-        if depth >= max_depth:
-            return None  # Vượt quá độ sâu tối đa
-        
-        state_tuple = tuple(state)
-        if state_tuple in visited:
-            return None  # Tránh lặp lại trạng thái
-        
-        visited.add(state_tuple)
-        
-        # Đây là nút OR: chúng ta cần tìm ít nhất một đường đi tới đích
-        next_moves = get_next_states(state)
-        
-        for next_state, move in next_moves:
-            # Gọi đệ quy để tìm đường đi từ trạng thái kế tiếp
-            path = recursive_dfs(next_state, depth + 1, max_depth)
-            
-            if path is not None:
-                # Nếu tìm thấy đường đi, thêm bước di chuyển hiện tại vào đầu đường đi
-                return [move] + path
-        
-        # Không tìm thấy đường đi nào đến đích
-        return None
-    
-    # Bắt đầu thuật toán với trạng thái ban đầu
-    return recursive_dfs(initial_state)
 
-# Hàm giải thuật Searching with No Observation - Thuật toán tìm kiếm với không có bất kì quan sát nào về trạng thái
+def and_or_search(max_depth=20):
+    """
+    AND-OR Search: Một thuật toán tìm kiếm cho môi trường phức tạp trong 8-puzzle.
+    Thuật toán sẽ tạo một kế hoạch có thể giải quyết mọi khả năng xảy ra trong môi trường.
+    """
+    import random
+    import sys
+    from .utils import is_solvable, manhattan_distance
+    
+    # Tăng giới hạn đệ quy để tránh lỗi stack overflow
+    sys.setrecursionlimit(10000)
+
+    # Trạng thái đích
+    goal_state = list(range(1, 9)) + [0]
+    
+    # Tạo một trạng thái ban đầu ngẫu nhiên có thể giải được
+    while True:
+        start_state = list(random.sample(range(9), 9))
+        if is_solvable(start_state) and start_state != goal_state:
+            break
+    
+    # Lưu tất cả các trạng thái đã thăm để tránh lặp vô hạn
+    visited = set()
+    visited.add(tuple(start_state))
+    
+    # Lưu đường đi để hiển thị
+    solution_path = [start_state]
+    best_path = None
+    best_path_length = float('inf')
+    
+    def get_valid_moves(state):
+        """Tìm các nước đi hợp lệ từ trạng thái hiện tại"""
+        zero_idx = state.index(0)
+        valid_moves = []
+        
+        # Kiểm tra 4 hướng di chuyển: lên, xuống, trái, phải
+        if zero_idx >= 3:  # Có thể đi lên
+            valid_moves.append((zero_idx, zero_idx - 3))
+        if zero_idx < 6:  # Có thể đi xuống
+            valid_moves.append((zero_idx, zero_idx + 3))
+        if zero_idx % 3 > 0:  # Có thể đi trái
+            valid_moves.append((zero_idx, zero_idx - 1))
+        if zero_idx % 3 < 2:  # Có thể đi phải
+            valid_moves.append((zero_idx, zero_idx + 1))
+            
+        return valid_moves
+    
+    def apply_move(state, move):
+        """Áp dụng nước đi và trả về trạng thái mới"""
+        zero_idx, swap_idx = move
+        new_state = state.copy()
+        new_state[zero_idx], new_state[swap_idx] = new_state[swap_idx], new_state[zero_idx]
+        return new_state
+    
+    def dfs_with_limit(state, depth, path):
+        """Tìm kiếm theo chiều sâu với giới hạn độ sâu"""
+        nonlocal best_path, best_path_length
+        
+        # Nếu đạt trạng thái đích
+        if state == goal_state:
+            if len(path) < best_path_length:
+                best_path = path.copy()
+                best_path_length = len(path)
+            return True
+        
+        # Nếu vượt quá độ sâu tối đa
+        if depth >= max_depth:
+            return False
+        
+        # Lấy các nước đi hợp lệ và sắp xếp theo heuristic (tốt nhất trước)
+        valid_moves = get_valid_moves(state)
+        
+        # Thử từng nước đi
+        for move in valid_moves:
+            new_state = apply_move(state, move)
+            tuple_state = tuple(new_state)
+            
+            # Nếu trạng thái mới chưa thăm
+            if tuple_state not in visited:
+                visited.add(tuple_state)
+                
+                # Thêm vào đường đi
+                path.append(move)
+                solution_path.append(new_state)
+                
+                # Tiếp tục tìm kiếm từ trạng thái mới
+                if dfs_with_limit(new_state, depth + 1, path):
+                    return True
+                
+                # Quay lui nếu không tìm thấy đường đi
+                path.pop()
+                solution_path.pop()
+        
+        return False
+    
+    # Bắt đầu tìm kiếm với chiều sâu tăng dần để đảm bảo tìm được đường đi ngắn nhất
+    found = False
+    for limit in range(5, max_depth + 5, 5):
+        # Reset để thử với độ sâu mới
+        visited = set()
+        visited.add(tuple(start_state))
+        solution_path = [start_state]
+        
+        # Thử tìm kiếm với giới hạn mới
+        if dfs_with_limit(start_state, 0, []):
+            found = True
+            print(f"Tìm thấy đường đi với độ sâu {limit}")
+            break
+    
+    if found and best_path:
+        return {
+            "start": start_state,
+            "path": solution_path,
+            "moves": best_path
+        }
+    else:
+        return {
+            "start": start_state,
+            "path": [start_state],
+            "moves": None
+        }
+    
+
 def no_observation_search(start_state):
     goal_state = list(range(1, 9)) + [0]  # Trạng thái đích
     visited = set()                       # Trạng thái đã duyệt
@@ -573,6 +614,9 @@ def no_observation_search(start_state):
     if explore(start_state):
         return path
     return None
+
+
+
 
 # Hàm giải thuật Partial Observable Search (Belief State Search): tìm kiếm với trạng thái "quan sát được" một số ô trên bảng (1,2,3)
 def partial_observable_search(start_state):
@@ -628,48 +672,6 @@ def partial_observable_search(start_state):
                     queue.append((new_state, path + [(zero_idx, new_idx)]))
 
     return None
-
-# Thuật toán test_algorithms_solve: thử các nước đi nào giảm heuristic thì đi
-def test_algorithms_solve(start_state):
-    goal_state = list(range(1, 9)) + [0]
-    current_state = start_state[:] 
-    path = [] # Danh sách lưu các bước di chuyển từ trạng thái ban đầu đến trạng thái hiện tại
-    visited = set() # Trạng thái đã duyệt
-    visited.add(tuple(current_state)) # Thêm trạng thái ban đầu vào tập đã duyệt
-
-    while current_state != goal_state:
-        zero_idx = current_state.index(0)
-        moves = [-3, 3, -1, 1]
-        next_states = [] # Danh sách lưu các trạng thái kế tiếp
-
-        for move in moves:
-            new_idx = zero_idx + move
-            if 0 <= new_idx < 9 and (
-                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
-                (move in [-3, 3])
-            ):
-                new_state = current_state[:]
-                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
-                # Nếu trạng thái mới chưa được duyệt thì tính giá trị heuristic (Manhattan distance) của trạng thái mới
-                if tuple(new_state) not in visited:
-                    h = manhattan_distance(new_state)
-                    next_states.append((h, new_state, (zero_idx, new_idx)))
-
-        if not next_states:
-            return None  # không tìm được đường đi
-
-        # chọn trạng thái có heuristic thấp nhất
-        next_states.sort(key=lambda x: x[0]) # x[0]: giá trị heuristic
-        _, best_state, best_move = next_states[0]
-        current_state = best_state
-        path.append(best_move)
-        visited.add(tuple(current_state))
-
-        # nếu kẹt không tiến được → kết thúc
-        if len(visited) > 500:
-            return None
-
-    return path
 
 # Danh sách các bước di chuyển hợp lệ
 def get_next_states(state):
@@ -1670,8 +1672,7 @@ def constraint_checking_solve():
         'domains': domains,
         'constraints': constraints,
         'initial_assignment': {}
-    }
-
+    }    
     def is_consistent(var, value, assignment, csp):
         if value in assignment.values():
             return False
