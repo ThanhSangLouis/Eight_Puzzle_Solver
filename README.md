@@ -214,11 +214,15 @@ Eight_Puzzle_Solver/
 🪞 Duy trì K trạng thái tốt nhất tại mỗi cấp độ.  
 ![Beam](https://github.com/user-attachments/assets/6efa88a7-c770-4ac0-af47-d45d716da5ae)
 
+### **Genetic**
+![Genetic](https://github.com/user-attachments/assets/cbbe1f4d-d54d-4482-bb7a-b8d2b65ef191)
+
 ---
 
 ### 🤝 **And-Or Search**  
 🔀 Phù hợp cho bài toán có nhiều khả năng lựa chọn và rẽ nhánh.  
-![AndOr](https://github.com/user-attachments/assets/a19821fc-25ab-4e56-a0f0-ec8b67c45631)
+![AndORFIX](https://github.com/user-attachments/assets/5df70f82-15ca-497e-99bf-6d1a3fc2e281)
+
 
 ---
 
@@ -234,18 +238,19 @@ Eight_Puzzle_Solver/
 
 ---
 
-### 🧪 **Test Algorithm – Thuật toán kiểm thử**  
-🔬 Mô phỏng thử nghiệm thuật toán mới hoặc logic tùy chỉnh.  
-![TestAlgo](https://github.com/user-attachments/assets/59f4023d-ad81-4943-b34f-ac5fa6113181)
-
----
-
 ### 🔙 **Backtracking – Quay lui** ❤️ **ADVANCED ALGORITHM**
 🔁 Tìm kiếm bằng cách thử và quay lại khi rơi vào ngõ cụt.  
 ![Backing](https://github.com/user-attachments/assets/abc81e2d-a3d9-4818-809f-a88eb5673ed2)
 
 ### AC3
 ![ac3](https://github.com/user-attachments/assets/0f3f8569-2966-415c-a2f3-8bcb827e6976)
+
+### **Constraint Checking - Kiểm thử**
+![Const_Checking](https://github.com/user-attachments/assets/bf6f4086-583b-45ab-8a3c-1c1ba08a47a6)
+
+### **Q-Learning**
+![Q_Learning](https://github.com/user-attachments/assets/d0596a0e-3ac9-4119-8718-c3d201369d4d)
+
 
 ---
 ## Ảnh Minh Họa 🖼️
