@@ -75,11 +75,8 @@
 - **Trạng thái ban đầu**: Cấu hình ban đầu của bảng 8-puzzle
 - **Trạng thái đích**: Cấu hình mục tiêu mong muốn
 - **Hàm heuristic (h(n))**: Ước lượng chi phí còn lại từ trạng thái hiện tại đến đích
-- **Solution**: Chuỗi các bước đi từ trạng thái ban đầu đến đích có tổng chi phí thấp nhất
-
-#### Hàm heuristic (h(n)) cho bài toán 8-puzzle:
 - **Manhattan distance**: Tổng khoảng cách Manhattan từ vị trí hiện tại của mỗi ô đến vị trí đích
-- **Misplaced tiles**: Số ô không đúng vị trí so với trạng thái đích
+- **Solution**: Chuỗi các bước đi từ trạng thái ban đầu đến đích có tổng chi phí thấp nhất
 
 #### Các thuật toán tìm kiếm có thông tin:
 
@@ -175,7 +172,7 @@
 - Các thuật toán **Hill Climbing** rất nhanh và ít tốn bộ nhớ, nhưng dễ bị kẹt ở cực trị cục bộ
 - **Simulated Annealing** giải quyết được vấn đề kẹt ở cực trị cục bộ nhưng có thể mất nhiều thời gian hơn
 - **Genetic Algorithm** đa dạng trong việc tìm kiếm không gian trạng thái nhưng phức tạp hơn và tốn thời gian
-- **Beam Search** cho tốc độ tốt nhưng không đảm bảo tìm được đường đi tối ưu nếu K quá nhỏ
+- **Beam Search** cho tốc độ tốt nhưng không đảm bảo tìm được đường đi tối ưu nếu beam_width quá nhỏ
   
 ### 2.4. Nhóm 4: Thuật Toán Tìm Kiếm Trong Môi Trường Phức Tạp
 
@@ -259,7 +256,7 @@
 #### Thành phần chính của bài toán tìm kiếm:
 - **Trạng thái (state)**: Cấu hình hiện tại của môi trường (bảng 8-puzzle)
 - **Hành động (action)**: Các nước đi mà agent có thể thực hiện
-- **Phần thưởng (reward)**: Giá trị phản hồi từ môi trường sau mỗi hành động
+- **Phần thưởng (reward)**: Giá trị phản hồi từ môi trường sau mỗi hành động áp dụng lên trạng thái
 - **Chính sách (policy)**: Quy tắc chọn hành động dựa trên trạng thái
 - **Solution**: Một chuỗi hành động tối ưu được học thông qua tương tác với môi trường
 
@@ -290,11 +287,11 @@
 ### Nhận xét tổng quát
 
 - Các thuật toán tìm kiếm **không có thông tin** (BFS, DFS, UCS, IDDFS) phù hợp với bài toán nhỏ, ổn định nhưng dễ bị giới hạn bởi bộ nhớ hoặc thời gian trong các bài toán lớn hơn.
-- Nhóm **thuật toán có thông tin** (A*, IDA*, Greedy) mang lại hiệu quả vượt trội nhờ tận dụng heuristic, đặc biệt A* cho kết quả tối ưu một cách đáng tin cậy.
+- Nhóm thuật toán tìm kiếm **có thông tin** (A*, IDA*, Greedy) mang lại hiệu quả vượt trội nhờ tận dụng heuristic, đặc biệt A* cho kết quả tối ưu một cách đáng tin cậy.
 - **Local Search** cho thấy ưu thế về tốc độ và tiết kiệm bộ nhớ, tuy nhiên dễ bị rơi vào trạng thái cục bộ, trừ khi áp dụng các kỹ thuật như Simulated Annealing hoặc Genetic Algorithm.
-- Nhóm thuật toán xử lý **môi trường phức tạp** như And-Or Search, Partial Observable, No Observation thể hiện khả năng thích nghi cao trong điều kiện thiếu thông tin hoặc không chắc chắn.
-- Các thuật toán **ràng buộc (CSP)** như Backtracking, AC3, Constraint Checking giúp nhanh chóng loại bỏ trạng thái không hợp lệ và làm nền tảng cho sinh lời giải ban đầu.
-- **Q-Learning** mang lại một góc nhìn khác khi bài toán được học thông qua tương tác thay vì duyệt toàn bộ không gian trạng thái.
+- Nhóm thuật toán tìm kiếm trong **môi trường phức tạp** như And-Or Search, Partial Observable, No Observation thể hiện khả năng thích nghi cao trong điều kiện thiếu thông tin hoặc không chắc chắn.
+- Các thuật toán tìm kiếm có **ràng buộc (CSP)** như Backtracking, AC3, Constraint Checking giúp nhanh chóng loại bỏ trạng thái không hợp lệ và làm nền tảng cho sinh lời giải ban đầu.
+- Thuật toán học tăng cường **Q-Learning** mang lại một góc nhìn khác khi bài toán được học thông qua tương tác thay vì duyệt toàn bộ không gian trạng thái.
 
 ### Hướng phát triển
 
@@ -334,19 +331,16 @@ python -m eight_puzzle_solver.main
 ## Hướng Dẫn Chơi 🎮
 
 1. **Chỉnh Sửa Trạng Thái Ban Đầu**:
-   - Nhấp vào các ô để thay đổi giá trị. Ô trống sẽ là số `0`.
+   - Nhấp vào các ô hoặc cuộn con lăn chuột để thay đổi giá trị. Ô trống sẽ là số `0`.
    - Bạn có thể nhấp chuột phải để thay đổi giá trị của ô trống từ 8 đến 0.
 2. **Chọn Thuật Toán**:
-
    - Chọn thuật toán từ danh sách để giải bài toán (ví dụ: BFS, A\*, hoặc Simulated Annealing).
    - Sau khi chọn thuật toán, ứng dụng sẽ bắt đầu giải quyết và hiển thị số bước đi và thanh tiến trình.
-
 3. **Reset** 🔄:
    - Bạn có thể nhấn "Reset" để quay lại trạng thái ban đầu của puzzle.
 4. **Hiển Thị Tiến Trình** 📊:
    - Số bước đi sẽ được cập nhật trong giao diện khi thuật toán đang chạy.
    - Thanh tiến trình sẽ cho bạn thấy tiến độ giải bài toán.
-
 ---
 
 ## 🧩 Cấu trúc dự án
@@ -383,7 +377,7 @@ Project Link: [https://github.com/ThanhSangLouis/Eight_Puzzle_Solver](https://gi
 ---
 ## Cảm Ơn 🙏
 
-Cảm ơn bạn đã sử dụng **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
+Cảm ơn bạn đã sử dụng game **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
 Chúc bạn chơi vui nhé! 🎮
 
 ---
