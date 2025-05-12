@@ -156,7 +156,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ![Genetic](https://github.com/user-attachments/assets/cbbe1f4d-d54d-4482-bb7a-b8d2b65ef191)
 
 ##### Beam Search 🌟
-- **Mô tả**: Duy trì K trạng thái tốt nhất tại mỗi cấp độ
+- **Mô tả**: Duy trì beam_width trạng thái tốt nhất tại mỗi cấp độ
 - **Minh họa**:
 
 ![Beam](https://github.com/user-attachments/assets/6efa88a7-c770-4ac0-af47-d45d716da5ae)
