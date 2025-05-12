@@ -13,19 +13,19 @@
 # BÁO CÁO TỔNG KẾT DỰ ÁN
 
 ## 1. Mục Tiêu
-
-- Xây dựng trò chơi giải đố 8-puzzle với giao diện trực quan
-- Cài đặt và so sánh hiệu suất của các thuật toán tìm kiếm AI khác nhau
-- Phân tích ưu nhược điểm của từng thuật toán khi áp dụng vào các trường hợp giải đố cụ thể
-- Trực quan hóa quá trình giải quyết bài toán thông qua giao diện đồ họa
-
+Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò chơi giải đố 8-puzzle tích hợp nhiều thuật toán tìm kiếm AI, với giao diện trực quan và khả năng trực quan hóa từng bước giải. Cụ thể, dự án hướng đến các mục tiêu sau:
+- Xây dựng trò chơi giải đố 8-puzzle với giao diện đồ họa trực quan, cho phép người dùng dễ dàng nhập trạng thái ban đầu, theo dõi trạng thái bàn cờ và tương tác với các thao tác giải thông qua các nút chọn thuật toán và điều khiển trên màn hình.
+- Triển khai nhiều thuật toán tìm kiếm thuộc 6 nhóm lớn gồm: tìm kiếm không có thông tin, tìm kiếm có thông tin, tìm kiếm cục bộ, tìm kiếm trong môi trường phức tạp, bài toán ràng buộc (CSP), và học tăng cường. Các thuật toán này được áp dụng trên cùng một bài toán 8-puzzle để so sánh khả năng tìm lời giải, từ đó làm rõ sự khác biệt về logic và hiệu quả giữa các chiến lược AI.
+- Phân tích ưu nhược điểm của từng thuật toán khi áp dụng vào bài toán cụ thể, giúp làm nổi bật điểm mạnh, điểm yếu và phạm vi ứng dụng của mỗi thuật toán.
+- Trực quan hóa toàn bộ quá trình giải đố thông qua giao diện đồ họa: người dùng có thể quan sát từng bước chuyển đổi trạng thái, số bước thực hiện, các trạng thái trung gian và kế hoạch hành động của mỗi thuật toán, giúp việc học và trình bày trở nên dễ hiểu và sinh động hơn.
 ## 2. Nội Dung
 
 ### 2.1. Nhóm 1: Tìm Kiếm Không Có Thông Tin (Uninformed Search)
 
 #### Thành phần chính của bài toán tìm kiếm:
-- **Trạng thái ban đầu**: Cấu hình ban đầu của bảng 8-puzzle
-- **Trạng thái đích**: Cấu hình mục tiêu cần đạt được
+- **Trạng thái ban đầu**: Cấu hình khởi điểm của bảng 8-puzzle, do người dùng tùy ý nhập thông qua giao diện.
+- **Trạng thái đích**: Cấu hình mục tiêu cần đạt tới, thường được chuẩn hóa là `(1, 2, 3, 4, 5, 6, 7, 8, 0)`, trong đó `0` đại diện cho ô trống.
+- **Hàm chi phí**: Mỗi hành động di chuyển giữa hai trạng thái có chi phí bằng 1 đơn vị.
 - **Solution**: Chuỗi các bước di chuyển từ trạng thái ban đầu đến trạng thái đích
 
 #### Các thuật toán tìm kiếm không có thông tin:
@@ -72,11 +72,13 @@
 ### 2.2. Nhóm 2: Thuật Toán Tìm Kiếm Có Thông Tin (Informed Search)
 
 #### Thành phần chính của bài toán tìm kiếm:
-- **Trạng thái ban đầu**: Cấu hình ban đầu của bảng 8-puzzle
-- **Trạng thái đích**: Cấu hình mục tiêu mong muốn
-- **Hàm heuristic (h(n))**: Ước lượng chi phí còn lại từ trạng thái hiện tại đến đích
-- **Manhattan distance**: Tổng khoảng cách Manhattan từ vị trí hiện tại của mỗi ô đến vị trí đích
-- **Solution**: Chuỗi các bước đi từ trạng thái ban đầu đến đích có tổng chi phí thấp nhất
+- **Trạng thái ban đầu**: Cấu hình khởi điểm của bảng 8-puzzle, do người dùng tùy ý nhập thông qua giao diện.
+- **Trạng thái đích**: Cấu hình mục tiêu cần đạt tới, thường được chuẩn hóa là `(1, 2, 3, 4, 5, 6, 7, 8, 0)`, trong đó `0` đại diện cho ô trống.
+- **Hàm chi phí**: Mỗi hành động di chuyển giữa hai trạng thái có chi phí bằng 1 đơn vị.
+- **Hàm heuristic (h(n))**: Ước lượng chi phí còn lại từ trạng thái hiện tại (x1, y1) đến trạng thái đích, đóng vai trò dẫn đường cho quá trình tìm kiếm.
+  - **Ví dụ heuristic phổ biến**:
+    - **Manhattan distance**: Tổng khoảng cách Manhattan của mỗi ô từ vị trí hiện tại (x1, y1) đến vị trí đích (x2, y2), với công thức là |x1 - x2| + |y1 - y2|.
+- **Solution (Lời giải)**: Là chuỗi các hành động hợp lệ dẫn từ trạng thái ban đầu đến trạng thái đích với tổng chi phí thấp nhất theo đánh giá của thuật toán.
 
 #### Các thuật toán tìm kiếm có thông tin:
 
@@ -112,12 +114,14 @@
 - **IDA*** có hiệu suất bộ nhớ tốt hơn A* nhưng có thể chậm hơn do phải duyệt lại các nút
 
 ### 2.3. Nhóm 3: Thuật Toán Tìm Kiếm Cục Bộ (Local Search)
-
 #### Thành phần chính của bài toán tìm kiếm:
-- **Trạng thái ban đầu**: Một cấu hình 8-puzzle ban đầu
-- **Hàm đánh giá**: Xác định chất lượng của mỗi trạng thái
-- **Hàng xóm (neighbors)**: Tập các trạng thái có thể đạt được từ trạng thái hiện tại
-- **Solution**: Trạng thái có giá trị đánh giá tốt nhất sau quá trình cải thiện lặp lại
+- **Trạng thái ban đầu**: Cấu hình khởi điểm của bảng 8-puzzle, được người dùng nhập tùy ý thông qua giao diện.
+- **Trạng thái đích**: Cấu hình mục tiêu cần đạt tới, thường là `(1, 2, 3, 4, 5, 6, 7, 8, 0)`, trong đó `0` đại diện cho ô trống.
+- **Hàng xóm (Neighbors)**: Tập các trạng thái có thể sinh ra từ trạng thái hiện tại bằng một bước di chuyển hợp lệ. Local Search chỉ xét trạng thái hàng xóm trực tiếp thay vì xây dựng toàn bộ cây tìm kiếm.
+- **Hàm đánh giá (Evaluation function)**: Hàm dùng để đánh giá "độ tốt" của một trạng thái hiện tại, thường dựa trên khoảng cách đến trạng thái đích.
+  - **Ví dụ phổ biến**:
+    - **Manhattan distance**: Tổng khoảng cách Manhattan của tất cả các ô (trừ ô trống) từ vị trí hiện tại đến vị trí đúng trong trạng thái đích, tính theo công thức: `|x1 - x2| + |y1 - y2|`.
+- **Solution (Lời giải)**: Là một trạng thái gần với mục tiêu hoặc đạt được mục tiêu, được tìm thông qua quá trình cải thiện dần từ trạng thái ban đầu sang trạng thái tốt hơn trong không gian hàng xóm.
 
 #### Các thuật toán tìm kiếm cục bộ:
 
@@ -175,13 +179,11 @@
 - **Beam Search** cho tốc độ tốt nhưng không đảm bảo tìm được đường đi tối ưu nếu beam_width quá nhỏ
   
 ### 2.4. Nhóm 4: Thuật Toán Tìm Kiếm Trong Môi Trường Phức Tạp
-
 #### Thành phần chính của bài toán tìm kiếm:
-- **Trạng thái ban đầu**: Có thể là một tập hợp trạng thái (belief state)
-- **Hành động**: Có thể mang tính bất định, không dẫn tới một kết quả duy nhất
-- **Quan sát**: Thông tin gián tiếp giúp điều chỉnh belief state
-- **Solution**: Một kế hoạch hoặc cây hành động thỏa mãn mục tiêu bất chấp thiếu quan sát đầy đủ
-
+- **Trạng thái ban đầu**: Không còn là một trạng thái xác định duy nhất, mà là một **tập hợp các trạng thái niềm tin (belief state)** do không có đủ thông tin ban đầu.
+- **Hành động (Action)**: Có thể mang tính **bất định**, nghĩa là một hành động thực hiện từ một trạng thái có thể dẫn đến nhiều kết quả khác nhau, tùy vào điều kiện môi trường.
+- **Quan sát (Observation)**: Là thông tin gián tiếp thu được sau khi thực hiện hành động, dùng để **cập nhật lại tập hợp belief state** và thu hẹp khả năng nhận diện trạng thái hiện tại.
+- **Solution (Lời giải)**: Không đơn thuần là một chuỗi hành động tuyến tính, mà là một **kế hoạch có cấu trúc cây (AND-OR plan)** hoặc một chiến lược hành động phù hợp cho mọi khả năng xảy ra, bất chấp việc thiếu thông tin quan sát đầy đủ hoặc môi trường thay đổi không đoán trước.
 ##### And-Or Search 🤝
 - **Mô tả**: Phù hợp cho bài toán có nhiều khả năng lựa chọn và rẽ nhánh
 - **Minh họa**:
@@ -216,10 +218,17 @@
 ### 2.5. Nhóm 5: Thuật Toán Tìm Kiếm Trong Môi Trường Có Ràng Buộc (CSP)
 
 #### Thành phần chính của bài toán tìm kiếm:
-- **Biến (variables)**: Các thành phần cần được gán giá trị
-- **Miền giá trị (domains)**: Tập hợp các giá trị có thể gán cho biến
-- **Ràng buộc (constraints)**: Các điều kiện cần thỏa mãn giữa các biến
-- **Solution**: Một phép gán giá trị cho tất cả các biến sao cho thỏa mãn toàn bộ ràng buộc
+- **Biến (Variables)**: Có tổng cộng **9 biến**, ký hiệu từ `X1` đến `X9`, tương ứng với 9 vị trí trên bảng 3x3 (từ trái qua phải, từ trên xuống dưới).
+- **Miền giá trị (Domain)**: Mỗi biến nhận một giá trị duy nhất trong tập `{0, 1, 2, ..., 8}`, trong đó `0` biểu thị cho ô trống. Tập giá trị được **xáo trộn ngẫu nhiên** nhằm tăng tính đa dạng khi sinh trạng thái ban đầu.
+- **Ràng buộc (Constraints)**:
+  - **Ràng buộc ngang**: Các cặp ô nằm liền kề theo hàng ngang (ví dụ: `X1–X2`, `X2–X3`, ...) phải thỏa mãn điều kiện:  
+    > `Giá trị bên phải = giá trị bên trái + 1`, và `giá trị bên trái ≠ 0`.
+  - **Ràng buộc dọc**: Các cặp ô liền kề theo cột dọc (ví dụ: `X1–X4`, `X2–X5`, ...) phải thỏa mãn điều kiện:  
+    > `Giá trị phía dưới = giá trị phía trên + 3`, và `giá trị phía trên ≠ 0`.
+  - **Ràng buộc toàn cục không trùng lặp**: Mỗi giá trị từ 0 đến 8 chỉ xuất hiện một lần trên toàn bộ bảng (AllDifferent Constraint).
+
+- **Kiểm tra khả năng giải (solvability check)**: Sau khi hoàn tất việc gán giá trị cho 9 biến, trạng thái cuối cùng sẽ được kiểm tra tính khả thi bằng hàm `is_solvable()`. Trạng thái chỉ hợp lệ nếu có thể giải được theo luật 8-puzzle.
+- **Solution**: Gán giá trị cho 9 biến X1 đến X9, thỏa mãn các ràng buộc (ngang, dọc, không giá trị) và tạo thành một trạng thái có khả năng thực hiện đển trạng thái mục tiêu.
 
 ##### Backtracking 🔙
 - **Mô tả**: Tìm kiếm bằng cách thử và quay lại khi rơi vào ngõ cụt
@@ -252,13 +261,13 @@
 - **AC3** và **Constraint Checking** cải thiện hiệu suất tìm kiếm bằng cách loại bỏ sớm các giá trị không hợp lệ
 
 ### 2.6. Nhóm 6: Thuật Toán Học Tăng Cường (Reinforcement Learning)
-
 #### Thành phần chính của bài toán tìm kiếm:
-- **Trạng thái (state)**: Cấu hình hiện tại của môi trường (bảng 8-puzzle)
-- **Hành động (action)**: Các nước đi mà agent có thể thực hiện
-- **Phần thưởng (reward)**: Giá trị phản hồi từ môi trường sau mỗi hành động áp dụng lên trạng thái
-- **Chính sách (policy)**: Quy tắc chọn hành động dựa trên trạng thái
-- **Solution**: Một chuỗi hành động tối ưu được học thông qua tương tác với môi trường
+- **Trạng thái (State)**: Là cấu hình hiện tại của môi trường, trong bài toán này chính là bảng 8-puzzle tại một thời điểm cụ thể.
+- **Hành động (Action)**: Tập các nước đi mà agent có thể thực hiện tại mỗi trạng thái, tương ứng với việc di chuyển ô trống lên, xuống, trái hoặc phải.
+- **Phần thưởng (Reward)**: Giá trị phản hồi từ môi trường sau mỗi hành động, thường được thiết kế để khuyến khích việc tiến gần hơn đến trạng thái đích và phạt nếu đi sai hướng.
+- **Chính sách (Policy)**: Chiến lược hành động tối ưu của agent, xác định hành động nào cần chọn trong mỗi trạng thái nhằm tối đa hóa phần thưởng tích lũy.
+- **Solution (Lời giải)**: Là chuỗi hành động được agent học thông qua quá trình tương tác với môi trường, giúp đưa từ trạng thái ban đầu đến đích theo chính sách tối ưu mà không cần duyệt toàn bộ không gian trạng thái.
+
 
 ##### Q-Learning 🧠
 - **Mô tả**: Thuật toán học tăng cường để tìm chiến lược tối ưu
@@ -367,18 +376,20 @@ Mọi đóng góp đều được hoan nghênh! Nếu bạn muốn đóng góp, 
 3. Commit thay đổi (`git commit -m 'Add some amazing feature'`)
 4. Push lên branch (`git push origin feature/amazing-feature`)
 5. Mở Pull Request
+---
 
+## 👤 Tác giả
+
+- **Họ tên**: Võ Thanh Sang  
+- **MSSV**: 23110301  
+- **Môn học**: Trí Tuệ Nhân Tạo  
+- **Trường**: Đại học Sư phạm Kỹ thuật TP.HCM (HCMUTE)
+  
 ## 📞 Liên hệ
 
 Thanh Sang - [@ThanhSangLouis](https://github.com/ThanhSangLouis)
 
 Project Link: [https://github.com/ThanhSangLouis/Eight_Puzzle_Solver](https://github.com/ThanhSangLouis/Eight_Puzzle_Solver)
-
----
-## Cảm Ơn 🙏
-
-Cảm ơn bạn đã sử dụng game **8-Puzzle Solver**. Chúng tôi hy vọng bạn sẽ thích ứng dụng và thử nghiệm với các thuật toán khác nhau để giải quyết bài toán 8-puzzle!
-Chúc bạn chơi vui nhé! 🎮
 
 ---
 <div align="center">
