@@ -34,24 +34,24 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Duyệt theo từng lớp, mở rộng tất cả các đỉnh ở cùng độ sâu trước khi đi sâu hơn
 - **Minh họa**:
 
-
+![bfsFIX mp4](https://github.com/user-attachments/assets/11e76999-470a-4f94-a753-93a35bf35e9c)
 
 ##### DFS (Depth-First Search) 🌿
 - **Mô tả**: Đi sâu nhất có thể theo từng nhánh trước khi quay lại
 - **Minh họa**:
-
+![dfsFIX mp4](https://github.com/user-attachments/assets/396f297d-bed4-4bd1-aa63-9df27751529d)
 
 
 ##### UCS (Uniform Cost Search) 💰
 - **Mô tả**: Luôn chọn mở rộng nút có chi phí thấp nhất
 - **Minh họa**:
-![ucs2_1](https://github.com/user-attachments/assets/68824bbd-2766-429f-a5fa-d5d98a6805be)
+![ucsFIX mp4](https://github.com/user-attachments/assets/e08c06af-3991-44ee-8a19-2384b5f4f08b)
 
 
 ##### IDDFS (Iterative Deepening Depth-First Search) 🔄
 - **Mô tả**: Kết hợp DFS và BFS bằng cách lặp DFS theo từng mức độ sâu tăng dần
 - **Minh họa**:
-
+![iddfs2 mp4](https://github.com/user-attachments/assets/fcec1a35-0263-4f90-a4cf-77b6e3c4e16d)
 
 
 #### So sánh hiệu suất:
@@ -86,18 +86,21 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Ưu tiên chọn nút gần đích nhất theo hàm heuristic
 - **Minh họa**:
 
+![greedyFIX mp4](https://github.com/user-attachments/assets/800b8b76-2614-494d-861d-da2e93b42840)
 
 
 ##### A* (A Star) ⭐
 - **Mô tả**: Kết hợp giữa chi phí thực tế (g(n)) và chi phí ước lượng đến đích (h(n)) để tìm đường tốt nhất
 - **Minh họa**:
 
+![AStarFIX mp4](https://github.com/user-attachments/assets/144af7e2-c6b5-4b77-9501-86b8f080aa55)
 
 
 ##### IDA* (Iterative Deepening A Star) 🧑‍💻
 - **Mô tả**: Phiên bản tiết kiệm bộ nhớ của A*, thực hiện theo tầng
 - **Minh họa**:
 
+![IDAFIX mp4](https://github.com/user-attachments/assets/80fe6606-9bf7-4512-a739-92723c00991c)
 
 #### So sánh hiệu suất:
 
@@ -128,7 +131,9 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Luôn di chuyển đến trạng thái tốt hơn nếu có
 - **Minh họa**:
 
-![HillClimbing](https://github.com/user-attachments/assets/2e125602-5792-4a00-9746-aef14f7377f3)
+![hillcliimbing2](https://github.com/user-attachments/assets/a80322a0-351d-42ba-b2b6-416b9bdbe98b)
+
+
 
 ##### Steepest-Ascent Hill Climbing 🏔️
 - **Mô tả**: Chọn trạng thái tốt nhất trong tất cả hàng xóm
@@ -152,14 +157,15 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ##### Genetic Algorithm 🧬
 - **Mô tả**: Sử dụng các nguyên tắc di truyền để tiến hóa dần đến giải pháp tốt
 - **Minh họa**:
+![genetic2](https://github.com/user-attachments/assets/6c639d40-ec19-4b98-bbdf-4120c42c3971)
 
-![Genetic](https://github.com/user-attachments/assets/cbbe1f4d-d54d-4482-bb7a-b8d2b65ef191)
 
 ##### Beam Search 🌟
 - **Mô tả**: Duy trì beam_width trạng thái tốt nhất tại mỗi cấp độ
 - **Minh họa**:
 
-![Beam](https://github.com/user-attachments/assets/6efa88a7-c770-4ac0-af47-d45d716da5ae)
+![beam](https://github.com/user-attachments/assets/b75a2960-399c-4779-96c7-4119cc06cef6)
+
 
 #### So sánh hiệu suất:
 
@@ -188,19 +194,21 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Phù hợp cho bài toán có nhiều khả năng lựa chọn và rẽ nhánh
 - **Minh họa**:
 
-![AndORFIX](https://github.com/user-attachments/assets/5df70f82-15ca-497e-99bf-6d1a3fc2e281)
+![and_or2](https://github.com/user-attachments/assets/9cdd3f1f-4c54-456c-9e85-db28734c17ee)
 
 ##### No Observation Search 👁️‍🗨️
 - **Mô tả**: Giải trong điều kiện không biết rõ trạng thái ban đầu
 - **Minh họa**:
 
-![NoObser](https://github.com/user-attachments/assets/6605b443-8229-4293-85a0-b86b506e089a)
+![noobser2 mp4](https://github.com/user-attachments/assets/a6c797db-06ef-49c7-819a-9071cca525d0)
+
 
 ##### Partial Observable Search 🕵️
 - **Mô tả**: Xử lý bài toán khi chỉ biết một phần trạng thái môi trường
 - **Minh họa**:
 
-![Partial](https://github.com/user-attachments/assets/5996b2f8-14e6-4219-bccb-30c867c258b9)
+![partial2 mp4](https://github.com/user-attachments/assets/d496ef96-6b46-4482-be90-cb6fe07ecb77)
+
 
 #### So sánh hiệu suất:
 
@@ -233,21 +241,21 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ##### Backtracking 🔙
 - **Mô tả**: Tìm kiếm bằng cách thử và quay lại khi rơi vào ngõ cụt
 - **Minh họa**:
-
-![Backing](https://github.com/user-attachments/assets/abc81e2d-a3d9-4818-809f-a88eb5673ed2)
+![backtracking](https://github.com/user-attachments/assets/d41f7810-a78e-4431-82f2-ec5ac29b1010)
 
 ##### AC3 (Arc Consistency Algorithm #3) 🔄
 - **Mô tả**: Thuật toán kiểm tra tính nhất quán giữa các ràng buộc
 - **Minh họa**:
 
-![ac3 (1)](https://github.com/user-attachments/assets/ddcd7d14-640a-4d00-8403-8decd01f8695)
+
+![ac3_Fix mp4](https://github.com/user-attachments/assets/d8dcc909-d321-4773-a1fc-2f90e476318b)
 
 
 ##### Constraint Checking ✅
 - **Mô tả**: Kiểm tra các ràng buộc trong quá trình tìm kiếm
 - **Minh họa**:
 
-![Const_Checking](https://github.com/user-attachments/assets/bf6f4086-583b-45ab-8a3c-1c1ba08a47a6)
+![constra mp4](https://github.com/user-attachments/assets/c3361085-49b5-4f6d-a043-cc1828d6d082)
 
 #### So sánh hiệu suất:
 
