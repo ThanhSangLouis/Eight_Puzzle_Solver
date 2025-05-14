@@ -5,7 +5,7 @@ import random
 from eight_puzzle_solver.utils import generate_fixed_puzzle
 import pygame
 from collections import deque
-from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_step_count, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
+from eight_puzzle_solver.gui import draw_board, draw_buttons, draw_selected_algorithm, draw_status_bar, draw_input_board, draw_progress_bar, get_clicked_button, get_clicked_input_cell
 from eight_puzzle_solver.algorithms import ac3, and_or_search, bfs_solve, constraint_checking_solve, create_consistent_state, create_constraints, dfs_solve, find_solution_path, perform_ac3_with_solution, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, no_observation_search
 from eight_puzzle_solver.algorithms import backtracking_csp, ac3_solve, genetic_algorithm_solve, q_learning_solve
 
@@ -36,7 +36,6 @@ def main():
         WINDOW.fill(white)
         draw_board(start_state)
         draw_buttons()
-        draw_step_count(step_count)
         if selected_algorithm_name:
             draw_selected_algorithm(selected_algorithm_name)
         draw_status_bar("Ready" if not solving else "Solving...")  # Hiển thị trạng thái
@@ -70,7 +69,16 @@ def main():
                         selected_algorithm_name = None
                         editing_state = True
                         input_state = [None] * 9
-
+                    elif selected_algorithm == "random":  # Thêm xử lý cho nút Random
+                        # Sử dụng hàm generate_random_state từ utils để tạo trạng thái ngẫu nhiên
+                        from eight_puzzle_solver.utils import generate_random_state
+                        random_state = generate_random_state()
+                        # Gán trạng thái ngẫu nhiên vào input_state
+                        input_state = random_state[:]
+                        # Hiển thị trạng thái ngẫu nhiên
+                        draw_input_board(input_state)
+                        pygame.display.flip()
+                        print(f"Đã tạo trạng thái ngẫu nhiên: {random_state}")
                     elif selected_algorithm == "apply":
                         if selected_algorithm_name == "Backtracking":
                             result = backtracking_csp()
