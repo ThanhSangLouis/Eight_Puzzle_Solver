@@ -45,8 +45,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ##### UCS (Uniform Cost Search) 💰
 - **Mô tả**: Luôn chọn mở rộng nút có chi phí thấp nhất
 - **Minh họa**:
-
-![ucs1](https://github.com/user-attachments/assets/c260159f-4159-45a0-b34e-3584ea9f21f6)
+![ucs2_1](https://github.com/user-attachments/assets/68824bbd-2766-429f-a5fa-d5d98a6805be)
 
 
 ##### IDDFS (Iterative Deepening Depth-First Search) 🔄
@@ -135,20 +134,21 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ##### Steepest-Ascent Hill Climbing 🏔️
 - **Mô tả**: Chọn trạng thái tốt nhất trong tất cả hàng xóm
 - **Minh họa**:
+  
+![sa_hc2](https://github.com/user-attachments/assets/bd5c8049-4a4f-4cd3-b035-19472392d29c)
 
-![SA_HC](https://github.com/user-attachments/assets/0a25e2df-74d7-4f0f-a02a-d698dfead65a)
 
 ##### Stochastic Hill Climbing 🎲
 - **Mô tả**: Chọn ngẫu nhiên trong các trạng thái tốt hơn
 - **Minh họa**:
+![stohc2](https://github.com/user-attachments/assets/1ebb8b83-2ca0-4111-a069-05b1dfda6588)
 
-![Sto_HC](https://github.com/user-attachments/assets/8a9a7152-355c-46ac-aba3-bc0e84f1cf4a)
 
 ##### Simulated Annealing ❄️
 - **Mô tả**: Chấp nhận trạng thái tệ hơn để thoát khỏi cực trị cục bộ
 - **Minh họa**:
 
-![Simu](https://github.com/user-attachments/assets/ab7ed3c6-0ed9-47c2-8338-744e802b26f6)
+![simulated2](https://github.com/user-attachments/assets/57aa7db7-8a9c-4f2f-9d5a-188652b643a3)
 
 ##### Genetic Algorithm 🧬
 - **Mô tả**: Sử dụng các nguyên tắc di truyền để tiến hóa dần đến giải pháp tốt
@@ -241,7 +241,8 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Thuật toán kiểm tra tính nhất quán giữa các ràng buộc
 - **Minh họa**:
 
-![ac3](https://github.com/user-attachments/assets/0f3f8569-2966-415c-a2f3-8bcb827e6976)
+![ac3 (1)](https://github.com/user-attachments/assets/ddcd7d14-640a-4d00-8403-8decd01f8695)
+
 
 ##### Constraint Checking ✅
 - **Mô tả**: Kiểm tra các ràng buộc trong quá trình tìm kiếm
@@ -273,23 +274,30 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 ##### Q-Learning 🧠
 - **Mô tả**: Thuật toán học tăng cường để tìm chiến lược tối ưu
 - **Minh họa**:
+  
+![q-learning2](https://github.com/user-attachments/assets/c0dd17d0-3cec-4845-89a8-861925d59740)
 
-![Q_Learning](https://github.com/user-attachments/assets/d0596a0e-3ac9-4119-8718-c3d201369d4d)
+
+##### Temporal Difference (TD) Learning 🧠
+- **Mô tả**: Thuật toán học giá trị trạng thái dựa trên sự khác biệt tạm thời (temporal difference) giữa giá trị hiện tại và giá trị kế tiếp.
+- **Minh họa**:
+![td2](https://github.com/user-attachments/assets/043fa7d6-bc47-4e43-aa77-bc745df13c71)
 
 #### So sánh hiệu suất:
 
 | Thuật toán             | Thời gian giải (ms) | Bộ nhớ sử dụng | Đặc điểm |
 |------------------------|---------------------|----------------|----------|
 | **Q-Learning**         | 1000ms - vài giây             | Cao            | Học dần dần chiến lược tối ưu |
+| **Q-Learning**         | 500ms – 1500ms            | Cao            | Cập nhật nhanh, không cần mô hình môi trường |
 
 #### Nhận xét:
 - **Q-Learning** có khả năng học và cải thiện hiệu suất theo thời gian, nhưng đòi hỏi nhiều tài nguyên
-
+- **TD Learning** có thể học nhanh và nhẹ hơn do không cần lưu bảng Q đầy đủ, thích hợp với môi trường không xác định rõ mô hình.
 ## 3. Kết Luận
 
 ### Kết quả đạt được
 
-- Triển khai thành công 20 thuật toán tìm kiếm, bao gồm đầy đủ 6 nhóm: từ tìm kiếm không có thông tin, có thông tin, cục bộ, cho đến học tăng cường và môi trường ràng buộc phức tạp.
+- Triển khai thành công 21 thuật toán tìm kiếm, bao gồm đầy đủ 6 nhóm: từ tìm kiếm không có thông tin, có thông tin, cục bộ, cho đến học tăng cường và môi trường ràng buộc phức tạp.
 - Xây dựng một giao diện trực quan và dễ sử dụng bằng Pygame, giúp người dùng theo dõi trực tiếp quá trình giải quyết bài toán theo từng bước.
 - Tổ chức lại toàn bộ nội dung thuật toán theo nhóm, kết hợp minh hoạ hình ảnh và bảng hiệu suất để trực quan và dễ tiếp cận.
 - Phân tích chi tiết điểm mạnh và hạn chế của từng thuật toán khi áp dụng cụ thể vào trò chơi 8-puzzle.
