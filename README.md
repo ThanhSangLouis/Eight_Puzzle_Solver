@@ -287,7 +287,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 | Thuật toán             | Thời gian giải (ms) | Bộ nhớ sử dụng | Đặc điểm |
 |------------------------|---------------------|----------------|----------|
 | **Q-Learning**         | 1000ms - vài giây             | Cao            | Học dần dần chiến lược tối ưu |
-| **Q-Learning**         | 500ms – 1500ms            | Cao            | Cập nhật nhanh, không cần mô hình môi trường |
+| **TD-Learning**         | 500ms – 1500ms            | Cao            | Cập nhật nhanh, không cần mô hình môi trường |
 
 #### Nhận xét:
 - **Q-Learning** có khả năng học và cải thiện hiệu suất theo thời gian, nhưng đòi hỏi nhiều tài nguyên
