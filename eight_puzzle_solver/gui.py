@@ -5,7 +5,7 @@ import pygame
 import time
 from .utils import manhattan_distance
 from .utils import is_movable
-from .algorithms import and_or_search, backtracking_csp, bfs_solve, constraint_checking_solve, dfs_solve, no_observation_search, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, ac3, genetic_algorithm_solve, q_learning_solve
+from .algorithms import and_or_search, backtracking_csp, bfs_solve, constraint_checking_solve, dfs_solve, no_observation_search, td_learning_solve, ucs_solve, greedy_solve, iddfs_solve, astar_solve, idastar_solve, hill_climbing_solve, steepest_ascent_hill_climbing_solve, stochastic_hill_climbing_solve, simulated_annealing_solve, beam_search_solve, partial_observable_search, ac3, genetic_algorithm_solve, q_learning_solve
 
 # Initialize Pygame
 pygame.init()
@@ -72,7 +72,7 @@ algorithm_groups = {
     "Local Search": ["Hill Climbing", "SA HC", "Stochastic HC", "Simu Annealing", "Genetic", "Beam Search"],
     "Complex Environments Search": ["And-Or Search", "No Observation", "Partial Obser"],
     "Constraint Satisfaction": ["Const Checking", "Backtracking", "AC3"],
-    "Reinforcement Learning": ["Q-Learning"],
+    "Reinforcement Learning": ["Q-Learning", "TD Learning"],
     "Controls": ["Reset", "Apply", "Random"]
 }
 
@@ -245,6 +245,7 @@ def get_clicked_button(pos):
         "AC3": ac3,
         "Genetic": genetic_algorithm_solve,
         "Q-Learning": q_learning_solve,
+        "TD Learning": td_learning_solve,
         "Reset": "reset",
         "Apply": "apply",
         "Random": "random"

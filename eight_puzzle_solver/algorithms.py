@@ -572,50 +572,75 @@ def and_or_search(max_depth=20):
         }
     
 
-def no_observation_search(start_state):
-    goal_state = list(range(1, 9)) + [0]  # Trạng thái đích
-    visited = set()                       # Trạng thái đã duyệt
-    path = []                             # Lưu đường đi từ trạng thái ban đầu đến trạng thái hiện tại
-    MAX_DEPTH = 50                        # Giới hạn độ sâu tránh tràn stack
+from itertools import permutations
+from collections import deque
 
-    def explore(state, depth=0):
-        if state == goal_state:
-            return True
-        if depth > MAX_DEPTH:
-            return False
+def no_observation_search(start_state=None):
+    goal_state = tuple([1, 2, 3, 4, 5, 6, 7, 8, 0])
+    print("📥 Bắt đầu no_observation_search()")
 
-        visited.add(tuple(state))
-        zero_idx = state.index(0)
-        moves = [-3, 3, -1, 1]  # Lên, xuống, trái, phải
+    # --- Kiểm tra solvability ---
+    def is_solvable(state):
+        inv = 0
+        for i in range(8):
+            for j in range(i+1, 9):
+                if state[i] and state[j] and state[i] > state[j]:
+                    inv += 1
+        return inv % 2 == 0
 
-        # Tạo danh sách các trạng thái lân cận
-        next_states = []
-        for move in moves:
-            new_idx = zero_idx + move
-            if 0 <= new_idx < 9 and (
-                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or (move in [-3, 3])
-            ):
-                new_state = state[:]
-                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
-                if tuple(new_state) not in visited:
-                    next_states.append((new_state, (zero_idx, new_idx)))
+    # --- 1) Tạo belief ban đầu ---
+    if start_state:
+        belief0 = {tuple(start_state)}
+        print(f"🔍 Trạng thái đầu vào: {start_state}")
 
-        # Sắp xếp để đi nước "hứa hẹn" hơn trước
-        next_states.sort(key=lambda x: manhattan_distance(x[0]))
+    else:
+        belief0 = set(filter(is_solvable, permutations(range(9))))
+        print(f"🔁 Khởi tạo belief với {len(belief0)} trạng thái có thể giải được")
 
-        for new_state, move in next_states:
-            path.append(move)  # Thêm bước di chuyển vào đường đi
-            if explore(new_state, depth + 1):
-                return True
-            path.pop()
 
-        return False
+    queue = deque([(belief0, [])])
+    visited = set()
+    expansions = 0
 
-    if explore(start_state):
-        return path
+    moves = {
+        'UP':    (-1,  0),
+        'DOWN':  ( 1,  0),
+        'LEFT':  ( 0, -1),
+        'RIGHT': ( 0,  1)
+    }
+
+    while queue:
+        belief, path = queue.popleft()
+        key = frozenset(belief)
+        if key in visited:
+            continue
+        visited.add(key)
+        expansions += 1
+
+        if all(state == goal_state for state in belief):
+            print("✅ Tìm thấy lời giải!")
+            print(f"🪜 Hành động: {path}")
+            return path
+
+        for action, (dr, dc) in moves.items():
+            new_belief = set()
+            ok = True
+            for st in belief:
+                zero = st.index(0)
+                r, c = divmod(zero, 3)
+                nr, nc = r+dr, c+dc
+                if 0 <= nr < 3 and 0 <= nc < 3:
+                    idx2 = nr*3 + nc
+                    lst  = list(st)
+                    lst[zero], lst[idx2] = lst[idx2], lst[zero]
+                    new_belief.add(tuple(lst))
+                else:
+                    ok = False
+                    break
+            if ok and new_belief:
+                queue.append((new_belief, path + [(zero, idx2)]))
+
     return None
-
-
 
 
 # Hàm giải thuật Partial Observable Search (Belief State Search): tìm kiếm với trạng thái "quan sát được" một số ô trên bảng (1,2,3)
@@ -1737,3 +1762,144 @@ def constraint_checking_solve():
             'nodes_expanded': nodes_expanded[0],
             'path': path
         }
+# Add this function after q_learning_solve and before constraint_checking_solve
+
+# Hàm giải thuật TD Learning: giải 8-puzzle sử dụng thuật toán học tăng cường Temporal Difference
+def td_learning_solve(start_state, episodes=5000, alpha=0.2, gamma=0.9, epsilon=0.3):
+    import random
+    from collections import defaultdict
+
+    goal_state = tuple([1, 2, 3, 4, 5, 6, 7, 8, 0])
+    
+    # Khởi tạo bảng giá trị trạng thái V(s)
+    V = defaultdict(float)
+    # Trạng thái đích có giá trị cao nhất
+    V[goal_state] = 100.0
+    
+    # Hàm xác định hành động hợp lệ từ trạng thái hiện tại
+    def get_valid_actions(state):
+        zero = state.index(0)
+        valid = []
+        # Các hướng di chuyển: lên (-3), xuống (3), trái (-1), phải (1)
+        actions = [(-3, "up"), (3, "down"), (-1, "left"), (1, "right")]
+        
+        for move, direction in actions:
+            new_idx = zero + move
+            if 0 <= new_idx < 9:
+                # Kiểm tra nước đi hợp lệ
+                if (move == -1 and zero % 3 == 0) or (move == 1 and zero % 3 == 2):
+                    continue  # Không đi ra ngoài hàng
+                if (move == -3 and zero < 3) or (move == 3 and zero > 5):
+                    continue  # Không đi ra ngoài cột
+                valid.append((zero, new_idx, direction))
+                
+        return valid
+
+    # Hàm áp dụng nước đi và tạo trạng thái mới
+    def apply_move(state, move):
+        zero_idx, new_idx, _ = move
+        new_state = list(state)
+        new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+        return tuple(new_state)
+
+    # Hàm chọn nước đi dựa trên epsilon-greedy
+    def choose_action(state, epsilon):
+        valid_moves = get_valid_actions(state)
+        
+        # Không có nước đi hợp lệ
+        if not valid_moves:
+            return None
+        
+        # Epsilon-greedy: khám phá vs khai thác
+        if random.random() < epsilon:
+            # Khám phá: chọn ngẫu nhiên một nước đi
+            return random.choice(valid_moves)
+        else:
+            # Khai thác: chọn nước đi có giá trị cao nhất
+            best_value = -float('inf')
+            best_moves = []
+            
+            for move in valid_moves:
+                next_state = apply_move(state, move)
+                if V[next_state] > best_value:
+                    best_value = V[next_state]
+                    best_moves = [move]
+                elif V[next_state] == best_value:
+                    best_moves.append(move)
+            
+            # Chọn ngẫu nhiên trong số các nước đi tốt nhất
+            return random.choice(best_moves)
+
+    print(f"TD Learning: training with {episodes} episodes...")
+    
+    # Huấn luyện qua nhiều tập dữ liệu
+    for episode in range(episodes):
+        # Giảm dần epsilon để ưu tiên khai thác hơn khám phá
+        current_epsilon = max(0.05, epsilon * (1 - episode / episodes))
+        
+        state = tuple(start_state)
+        step_count = 0
+        max_steps = 100  # Giới hạn số bước mỗi episode
+        
+        while state != goal_state and step_count < max_steps:
+            # Chọn nước đi 
+            move = choose_action(state, current_epsilon)
+            if not move:
+                break
+                
+            # Áp dụng nước đi để có trạng thái mới
+            next_state = apply_move(state, move)
+            
+            # Tính toán phần thưởng: -1 cho mỗi bước, 100 nếu đạt đích
+            reward = 100 if next_state == goal_state else -1
+            
+            # Cập nhật V(s) theo công thức TD(0): V(s) = V(s) + alpha * [R + gamma * V(s') - V(s)]
+            td_target = reward + gamma * V[next_state]
+            td_error = td_target - V[state]
+            V[state] += alpha * td_error
+            
+            # Chuyển sang trạng thái kế tiếp
+            state = next_state
+            step_count += 1
+        
+        # In thông tin tiến độ
+        if (episode + 1) % 500 == 0:
+            print(f"Episode {episode + 1}/{episodes} completed")
+
+    # Sau khi huấn luyện, sử dụng các giá trị đã học để tìm giải pháp
+    print("Training complete. Finding solution path...")
+    state = tuple(start_state)
+    path = []
+    visited = set([state])
+    max_solution_steps = 50
+    
+    # Giảm epsilon xuống thấp để ưu tiên khai thác hơn khám phá
+    solution_epsilon = 0.05
+    
+    for _ in range(max_solution_steps):
+        if state == goal_state:
+            print(f"Goal reached in {len(path)} steps!")
+            return path
+            
+        # Chọn nước đi tốt nhất từ trạng thái hiện tại
+        move = choose_action(state, solution_epsilon)
+        if not move:
+            print("No valid moves available")
+            break
+            
+        # Lưu vào đường đi và cập nhật trạng thái
+        zero_idx, new_idx, _ = move
+        path.append((zero_idx, new_idx))
+        
+        # Cập nhật trạng thái
+        state = apply_move(state, move)
+        
+        # Kiểm tra lặp vòng
+        if state in visited:
+            print("Loop detected, breaking")
+            break
+            
+        visited.add(state)
+    
+    # Trả về đường đi nếu có hoặc None nếu không tìm được
+    return path if path else None

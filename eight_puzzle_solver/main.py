@@ -217,9 +217,19 @@ def main():
                                 selected_algorithm_name += " (No Solution)"
                                 print("Không tìm được lời giải với thuật toán And-Or.")
 
-                    
-
-
+                        elif selected_algorithm_name == "No Observation Search":
+                            solving = True
+                            print("🔍 Đang chạy thuật toán No Observation Search...")
+                            solution = no_observation_search(start_state)
+                            step = 0
+                            if solution is None:
+                                solving = False
+                                selected_algorithm_name += " (No Solution)"
+                                print("Không tìm được lời giải với No Observation Search.")
+                            else:
+                                print(f"Đã tìm thấy chuỗi hành động ({len(solution)} bước):")
+                                print(solution)
+                        
 
                         elif selected_algorithm_name == "AC3":
                             solving = True
