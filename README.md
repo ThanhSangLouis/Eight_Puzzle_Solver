@@ -34,13 +34,13 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Duyệt theo từng lớp, mở rộng tất cả các đỉnh ở cùng độ sâu trước khi đi sâu hơn
 - **Minh họa**:
 
-![BFS](https://github.com/user-attachments/assets/b89768a5-b798-40ac-b91a-17ab2bd7ba18)
+
 
 ##### DFS (Depth-First Search) 🌿
 - **Mô tả**: Đi sâu nhất có thể theo từng nhánh trước khi quay lại
 - **Minh họa**:
 
-![DFS](https://github.com/user-attachments/assets/3475f27f-38ab-479c-8ee1-c3398b9a37bc)
+
 
 ##### UCS (Uniform Cost Search) 💰
 - **Mô tả**: Luôn chọn mở rộng nút có chi phí thấp nhất
@@ -52,7 +52,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Kết hợp DFS và BFS bằng cách lặp DFS theo từng mức độ sâu tăng dần
 - **Minh họa**:
 
-![IDDFS](https://github.com/user-attachments/assets/8d6b945d-7bfe-4848-80d3-ba0763fbacec)
+
 
 #### So sánh hiệu suất:
 
@@ -86,19 +86,18 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Ưu tiên chọn nút gần đích nhất theo hàm heuristic
 - **Minh họa**:
 
-![Greedy](https://github.com/user-attachments/assets/0d8ad8f2-050a-43b1-9cb4-1f4408e461b0)
+
 
 ##### A* (A Star) ⭐
 - **Mô tả**: Kết hợp giữa chi phí thực tế (g(n)) và chi phí ước lượng đến đích (h(n)) để tìm đường tốt nhất
 - **Minh họa**:
 
-![AStar](https://github.com/user-attachments/assets/b775f791-56aa-410d-b07a-d47472143b31)
+
 
 ##### IDA* (Iterative Deepening A Star) 🧑‍💻
 - **Mô tả**: Phiên bản tiết kiệm bộ nhớ của A*, thực hiện theo tầng
 - **Minh họa**:
 
-![IDAStar](https://github.com/user-attachments/assets/8755251d-c694-4356-94ad-d7e0d6800df7)
 
 #### So sánh hiệu suất:
 
