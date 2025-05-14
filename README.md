@@ -46,7 +46,8 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Luôn chọn mở rộng nút có chi phí thấp nhất
 - **Minh họa**:
 
-![UCS](https://github.com/user-attachments/assets/ccd7971c-8a6b-4936-88b2-60b64502d36c)
+![ucs1](https://github.com/user-attachments/assets/c260159f-4159-45a0-b34e-3584ea9f21f6)
+
 
 ##### IDDFS (Iterative Deepening Depth-First Search) 🔄
 - **Mô tả**: Kết hợp DFS và BFS bằng cách lặp DFS theo từng mức độ sâu tăng dần
