@@ -34,24 +34,28 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Duyệt theo từng lớp, mở rộng tất cả các đỉnh ở cùng độ sâu trước khi đi sâu hơn
 - **Minh họa**:
 
-![bfsFIX mp4](https://github.com/user-attachments/assets/11e76999-470a-4f94-a753-93a35bf35e9c)
+![bfsFIX](https://github.com/user-attachments/assets/53447305-8a8e-4105-b7cb-ee5bcaf6fd34)
+
 
 ##### DFS (Depth-First Search) 🌿
 - **Mô tả**: Đi sâu nhất có thể theo từng nhánh trước khi quay lại
 - **Minh họa**:
-![dfsFIX mp4](https://github.com/user-attachments/assets/396f297d-bed4-4bd1-aa63-9df27751529d)
+
+![dfsFIX](https://github.com/user-attachments/assets/be7ed807-10a3-441c-b219-2171f614cba6)
 
 
 ##### UCS (Uniform Cost Search) 💰
 - **Mô tả**: Luôn chọn mở rộng nút có chi phí thấp nhất
 - **Minh họa**:
-![ucsFIX mp4](https://github.com/user-attachments/assets/e08c06af-3991-44ee-8a19-2384b5f4f08b)
+
+![ucsFIX](https://github.com/user-attachments/assets/8a1eefe6-78d0-4b5f-813e-cad661fd7e99)
 
 
 ##### IDDFS (Iterative Deepening Depth-First Search) 🔄
 - **Mô tả**: Kết hợp DFS và BFS bằng cách lặp DFS theo từng mức độ sâu tăng dần
 - **Minh họa**:
-![iddfs2 mp4](https://github.com/user-attachments/assets/fcec1a35-0263-4f90-a4cf-77b6e3c4e16d)
+
+![iddfs2](https://github.com/user-attachments/assets/d98a7a0e-bf3f-4969-8927-546f25a59289)
 
 
 #### So sánh hiệu suất:
@@ -86,21 +90,19 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Ưu tiên chọn nút gần đích nhất theo hàm heuristic
 - **Minh họa**:
 
-![greedyFIX mp4](https://github.com/user-attachments/assets/800b8b76-2614-494d-861d-da2e93b42840)
-
+![greedyFIX](https://github.com/user-attachments/assets/40088a3b-a417-409a-ba98-7fb35d47e88e)
 
 ##### A* (A Star) ⭐
 - **Mô tả**: Kết hợp giữa chi phí thực tế (g(n)) và chi phí ước lượng đến đích (h(n)) để tìm đường tốt nhất
 - **Minh họa**:
 
-![AStarFIX mp4](https://github.com/user-attachments/assets/144af7e2-c6b5-4b77-9501-86b8f080aa55)
-
+![AStarFIX](https://github.com/user-attachments/assets/f44309e9-5eed-4eec-8efa-6c3b0e0da944)
 
 ##### IDA* (Iterative Deepening A Star) 🧑‍💻
 - **Mô tả**: Phiên bản tiết kiệm bộ nhớ của A*, thực hiện theo tầng
 - **Minh họa**:
 
-![IDAFIX mp4](https://github.com/user-attachments/assets/80fe6606-9bf7-4512-a739-92723c00991c)
+![IDAFIX](https://github.com/user-attachments/assets/d1131d2e-a2a1-4b24-bf2a-7b8275efcb3d)
 
 #### So sánh hiệu suất:
 
@@ -200,7 +202,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Giải trong điều kiện không biết rõ trạng thái ban đầu
 - **Minh họa**:
 
-![noobser2 mp4](https://github.com/user-attachments/assets/a6c797db-06ef-49c7-819a-9071cca525d0)
+![noobser2_1](https://github.com/user-attachments/assets/7eb96694-5c09-4c9b-afc1-36a5a5b86a4a)
 
 
 ##### Partial Observable Search 🕵️
