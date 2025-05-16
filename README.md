@@ -209,8 +209,7 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Xử lý bài toán khi chỉ biết một phần trạng thái môi trường
 - **Minh họa**:
 
-![partial2 mp4](https://github.com/user-attachments/assets/d496ef96-6b46-4482-be90-cb6fe07ecb77)
-
+![partial2 (1)](https://github.com/user-attachments/assets/3fafca43-289f-420e-9313-82dabe6ac52a)
 
 #### So sánh hiệu suất:
 
@@ -249,15 +248,13 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 - **Mô tả**: Thuật toán kiểm tra tính nhất quán giữa các ràng buộc
 - **Minh họa**:
 
-
-![ac3_Fix mp4](https://github.com/user-attachments/assets/d8dcc909-d321-4773-a1fc-2f90e476318b)
-
+![ac3_Fix](https://github.com/user-attachments/assets/b6f0e714-ad06-44a2-a23e-0b93af629291)
 
 ##### Constraint Checking ✅
 - **Mô tả**: Kiểm tra các ràng buộc trong quá trình tìm kiếm
 - **Minh họa**:
 
-![constra mp4](https://github.com/user-attachments/assets/c3361085-49b5-4f6d-a043-cc1828d6d082)
+![constra](https://github.com/user-attachments/assets/eac9eb14-f044-4ccb-957f-624c11782b06)
 
 #### So sánh hiệu suất:
 
