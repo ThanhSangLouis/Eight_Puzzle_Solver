@@ -11,13 +11,11 @@
 ---
 
 # BÁO CÁO TỔNG KẾT DỰ ÁN
-
 ## 1. Mục Tiêu
 Dự án **8-Puzzle Solver Game** nhằm phát triển một ứng dụng giải đố tích hợp **nhiều thuật toán AI** với **giao diện trực quan** và khả năng **minh họa quá trình giải bài toán**. Mục tiêu chính bao gồm:
-
 - **Xây dựng trò chơi giải đố 8-puzzle** với giao diện đồ họa thân thiện, cho phép người dùng:
   - Nhập trạng thái ban đầu bằng tay hoặc tạo ngẫu nhiên.
-  - Quan sát trạng thái bàn cờ cập nhật theo từng bước giải.
+  - Quan sát trạng thái được cập nhật theo từng bước giải.
   - Tương tác dễ dàng thông qua các nút chọn thuật toán và điều khiển.
 - **Tích hợp đầy đủ các thuật toán AI** thuộc 6 nhóm chính:
   - **Tìm kiếm không có thông tin** (BFS, DFS, UCS, IDDFS)
@@ -26,12 +24,8 @@ Dự án **8-Puzzle Solver Game** nhằm phát triển một ứng dụng giải
   - **Tìm kiếm trong môi trường phức tạp** (AND-OR Search, No Observation...)
   - **Bài toán ràng buộc CSP** (Backtracking, AC-3, Constraint Checking...)
   - **Học tăng cường** (Q-Learning, TD Learning)
-- **Phân tích và so sánh hiệu quả thuật toán**:
-  - Đánh giá **số bước giải**, **thời gian thực thi**, **số node mở rộng**.
-  - Rút ra **ưu nhược điểm** và **phạm vi ứng dụng** của từng chiến lược AI.
 - **Trực quan hóa toàn bộ quá trình giải**:
   - Hiển thị **từng bước chuyển trạng thái** ngay trong giao diện.
-  - Cung cấp bảng thông tin gồm **thời gian, số bước, số node mở rộng**.
 - **Tính năng `Show Log` đặc biệt - được demo ở cuối**:
   - Trình bày **toàn bộ quá trình giải** từ trạng thái ban đầu đến khi hoàn thành.
   - Cho phép **xem lại toàn bộ lịch sử giải một cách chi tiết**, bao gồm:
