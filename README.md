@@ -299,6 +299,19 @@ Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò ch�
 #### Nhận xét:
 - **Q-Learning** có khả năng học và cải thiện hiệu suất theo thời gian, nhưng đòi hỏi nhiều tài nguyên
 - **TD Learning** có thể học nhanh và nhẹ hơn do không cần lưu bảng Q đầy đủ, thích hợp với môi trường không xác định rõ mô hình.
+
+### 📝 Chức năng **Show Log** – Trình bày chi tiết quá trình giải bài toán
+Tính năng **`Show Log`** cho phép người dùng theo dõi **toàn bộ quá trình tìm kiếm lời giải**, hiển thị dưới dạng bảng log trực quan trong giao diện.
+📌 **Thông tin hiển thị bao gồm:**
+- ✅ **Tên thuật toán đã sử dụng**
+- 🔢 **Số bước thực hiện**
+- ⏱️ **Thời gian thực thi**
+- 🔍 **Số node đã mở rộng**
+- 🔄 **Các bước chuyển trạng thái** từ **trạng thái ban đầu** đến **trạng thái mục tiêu**
+> Người dùng có thể **cuộn (scroll)** nội dung log, và **nhấn ESC hoặc click chuột để đóng** bảng log khi xem xong.
+
+![showlog](https://github.com/user-attachments/assets/3ab7b06c-759f-42bb-99fd-5a2605710dbb)
+
 ## 3. Kết Luận
 
 ### Kết quả đạt được
