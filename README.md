@@ -13,11 +13,35 @@
 # BÁO CÁO TỔNG KẾT DỰ ÁN
 
 ## 1. Mục Tiêu
-Mục tiêu của dự án 8-Puzzle Solver Game là phát triển một trò chơi giải đố 8-puzzle tích hợp nhiều thuật toán tìm kiếm AI, với giao diện trực quan và khả năng trực quan hóa từng bước giải. Cụ thể, dự án hướng đến các mục tiêu sau:
-- Xây dựng trò chơi giải đố 8-puzzle với giao diện đồ họa trực quan, cho phép người dùng dễ dàng nhập trạng thái ban đầu, theo dõi trạng thái bàn cờ và tương tác với các thao tác giải thông qua các nút chọn thuật toán và điều khiển trên màn hình.
-- Triển khai nhiều thuật toán tìm kiếm thuộc 6 nhóm lớn gồm: tìm kiếm không có thông tin, tìm kiếm có thông tin, tìm kiếm cục bộ, tìm kiếm trong môi trường phức tạp, bài toán ràng buộc (CSP), và học tăng cường. Các thuật toán này được áp dụng trên cùng một bài toán 8-puzzle để so sánh khả năng tìm lời giải, từ đó làm rõ sự khác biệt về logic và hiệu quả giữa các chiến lược AI.
-- Phân tích ưu nhược điểm của từng thuật toán khi áp dụng vào bài toán cụ thể, giúp làm nổi bật điểm mạnh, điểm yếu và phạm vi ứng dụng của mỗi thuật toán.
-- Trực quan hóa toàn bộ quá trình giải đố thông qua giao diện đồ họa: người dùng có thể quan sát từng bước chuyển đổi trạng thái, số bước thực hiện, các trạng thái trung gian và kế hoạch hành động của mỗi thuật toán, giúp việc học và trình bày trở nên dễ hiểu và sinh động hơn.
+Dự án **8-Puzzle Solver Game** nhằm phát triển một ứng dụng giải đố tích hợp **nhiều thuật toán AI** với **giao diện trực quan** và khả năng **minh họa quá trình giải bài toán**. Mục tiêu chính bao gồm:
+
+- **Xây dựng trò chơi giải đố 8-puzzle** với giao diện đồ họa thân thiện, cho phép người dùng:
+  - Nhập trạng thái ban đầu bằng tay hoặc tạo ngẫu nhiên.
+  - Quan sát trạng thái bàn cờ cập nhật theo từng bước giải.
+  - Tương tác dễ dàng thông qua các nút chọn thuật toán và điều khiển.
+- **Tích hợp đầy đủ các thuật toán AI** thuộc 6 nhóm chính:
+  - **Tìm kiếm không có thông tin** (BFS, DFS, UCS, IDDFS)
+  - **Tìm kiếm có thông tin** (A*, Greedy, IDA*)
+  - **Tìm kiếm cục bộ** (Hill Climbing, Simulated Annealing, Beam Search...)
+  - **Tìm kiếm trong môi trường phức tạp** (AND-OR Search, No Observation...)
+  - **Bài toán ràng buộc CSP** (Backtracking, AC-3, Constraint Checking...)
+  - **Học tăng cường** (Q-Learning, TD Learning)
+- **Phân tích và so sánh hiệu quả thuật toán**:
+  - Đánh giá **số bước giải**, **thời gian thực thi**, **số node mở rộng**.
+  - Rút ra **ưu nhược điểm** và **phạm vi ứng dụng** của từng chiến lược AI.
+- **Trực quan hóa toàn bộ quá trình giải**:
+  - Hiển thị **từng bước chuyển trạng thái** ngay trong giao diện.
+  - Cung cấp bảng thông tin gồm **thời gian, số bước, số node mở rộng**.
+- **Tính năng `Show Log` đặc biệt - được demo ở cuối**:
+  - Trình bày **toàn bộ quá trình giải** từ trạng thái ban đầu đến khi hoàn thành.
+  - Cho phép **xem lại toàn bộ lịch sử giải một cách chi tiết**, bao gồm:
+    - Tên thuật toán sử dụng
+    - Số bước thực hiện
+    - Thời gian và số node mở rộng
+    - Từng bước chuyển trạng thái (swap)
+  - **Phục vụ mục đích học tập, phân tích và thuyết trình hiệu quả**, đặc biệt hữu ích cho sinh viên nghiên cứu các chiến lược tìm kiếm trong AI.
+> Dự án không chỉ là một công cụ giải đố, mà còn là một **công cụ học tập trực quan**, giúp người dùng hiểu sâu về cách các thuật toán AI hoạt động trong thực tế.
+
 ## 2. Nội Dung
 
 ### 2.1. Nhóm 1: Tìm Kiếm Không Có Thông Tin (Uninformed Search)
