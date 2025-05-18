@@ -73,7 +73,7 @@ algorithm_groups = {
     "Complex Environments Search": ["And-Or Search", "No Observation", "Partial Obser"],
     "Constraint Satisfaction": ["Const Checking", "Backtracking", "AC3"],
     "Reinforcement Learning": ["Q-Learning", "TD Learning"],
-    "Controls": ["Reset", "Apply", "Random"]
+    "Controls": ["Reset", "Apply", "Random", "Show Log"]
 }
 
 # Create a flattened list of all algorithms
@@ -248,7 +248,9 @@ def get_clicked_button(pos):
         "TD Learning": td_learning_solve,
         "Reset": "reset",
         "Apply": "apply",
-        "Random": "random"
+        "Random": "random",
+        "Show Log": "Show Log"
+
     }
     
     for group_name, algorithms in algorithm_groups.items():

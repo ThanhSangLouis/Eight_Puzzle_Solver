@@ -11,13 +11,140 @@ from eight_puzzle_solver.algorithms import backtracking_csp, ac3_solve, genetic_
 
 # Initialize Pygame
 pygame.init()
+WIDTH, HEIGHT = 900, 800
 
 WINDOW = pygame.display.set_mode((900, 800))
 clock = pygame.time.Clock()
 white = (255, 255, 255)
+def show_log_surface(screen, log_lines, scroll_position=0, font_size=24, max_height=700, max_width=800):
+    # Create a semi-transparent overlay for the background
+    overlay = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 128))  # Semi-transparent black overlay
+    screen.blit(overlay, (0, 0))
+    
+    # Create the log surface
+    pygame.font.init()
+    font = pygame.font.SysFont("consolas", font_size)
+    background_color = (255, 255, 255)
+    text_color = (0, 0, 0)
+    padding = 20
+
+    surface_height = min(max_height + 2 * padding, screen.get_height() - 40)
+    surface_width = min(max_width + 2 * padding, screen.get_width() - 40)
+
+    log_surface = pygame.Surface((surface_width, surface_height))
+    log_surface.fill(background_color)
+
+    # Calculate how many lines can be displayed
+    lines_per_page = (surface_height - 2 * padding) // font_size
+    
+    # Ensure scroll position is within valid range
+    max_scroll = max(0, len(log_lines) - lines_per_page)
+    scroll_position = min(max_scroll, max(0, scroll_position))
+    
+    visible_lines = log_lines[scroll_position:scroll_position + lines_per_page]
+    
+    # Render each visible line
+    for i, line in enumerate(visible_lines):
+        try:
+            text_surface = font.render(str(line), True, text_color)
+            log_surface.blit(text_surface, (padding, padding + i * font_size))
+        except pygame.error:
+            # If there's an error rendering text, display a placeholder
+            error_text = font.render(f"[Error rendering line {i}]", True, (255, 0, 0))
+            log_surface.blit(error_text, (padding, padding + i * font_size))
+    
+    # Draw a border around the log surface
+    pygame.draw.rect(log_surface, (0, 0, 0), log_surface.get_rect(), 2)
+    
+    # Draw scrollbar if needed
+    if len(log_lines) > lines_per_page:
+        scrollbar_width = 10
+        scrollbar_height = surface_height * (lines_per_page / max(len(log_lines), 1))
+        scrollbar_y = padding + (surface_height - 2 * padding - scrollbar_height) * (
+            scroll_position / max(len(log_lines) - lines_per_page, 1))
+        
+        # Draw scrollbar background
+        pygame.draw.rect(log_surface, (200, 200, 200), 
+                         (surface_width - scrollbar_width - padding, padding, 
+                          scrollbar_width, surface_height - 2 * padding))
+        
+        # Draw scrollbar thumb
+        pygame.draw.rect(log_surface, (100, 100, 100), 
+                         (surface_width - scrollbar_width - padding, scrollbar_y, 
+                          scrollbar_width, scrollbar_height))
+    
+    # Draw instructions
+    instruction_font = pygame.font.SysFont("consolas", 16)
+    instruction_text = instruction_font.render("ESC/Click: Close | ↑/↓: Scroll | PgUp/PgDn: Page", True, (100, 100, 100))
+    log_surface.blit(instruction_text, 
+                    (padding, surface_height - padding - instruction_font.get_height()))
+    
+    # Position the log surface in the center of the screen
+    log_pos = ((screen.get_width() - surface_width) // 2, 
+               (screen.get_height() - surface_height) // 2)
+    
+    # Blit the log surface to the screen and update the display
+    screen.blit(log_surface, log_pos)
+    pygame.display.update()
+    
+    return scroll_position
+
+# 2. Add this function to handle log display and interaction in the main loop
+def handle_log_display(screen, log_lines, current_scroll=0):
+    showing_log = True
+    scroll_position = current_scroll
+    
+    # Initial render of the log
+    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+    
+    # Handle events while log is displayed
+    while showing_log:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    showing_log = False
+                elif event.key == pygame.K_UP:
+                    scroll_position = max(0, scroll_position - 1)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+                elif event.key == pygame.K_DOWN:
+                    lines_per_page = (700 - 40) // 24  # max_height - 2*padding // font_size
+                    max_scroll = max(0, len(log_lines) - lines_per_page)
+                    scroll_position = min(max_scroll, scroll_position + 1)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+                elif event.key == pygame.K_PAGEUP:
+                    lines_per_page = (700 - 40) // 24
+                    scroll_position = max(0, scroll_position - lines_per_page)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+                elif event.key == pygame.K_PAGEDOWN:
+                    lines_per_page = (700 - 40) // 24
+                    max_scroll = max(0, len(log_lines) - lines_per_page)
+                    scroll_position = min(max_scroll, scroll_position + lines_per_page)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # Left click
+                    showing_log = False
+                elif event.button == 4:  # Mouse wheel up
+                    scroll_position = max(0, scroll_position - 3)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+                elif event.button == 5:  # Mouse wheel down
+                    lines_per_page = (700 - 40) // 24
+                    max_scroll = max(0, len(log_lines) - lines_per_page)
+                    scroll_position = min(max_scroll, scroll_position + 3)
+                    scroll_position = show_log_surface(screen, log_lines, scroll_position)
+        
+        # Small delay to avoid high CPU usage
+        pygame.time.delay(30)
+
+    return scroll_position
+
 
 # Main Function
 def main():
+    
     original_state = generate_fixed_puzzle()    
     input_state = [None] * 9
     editing_state = True
@@ -31,6 +158,13 @@ def main():
     selected_algorithm_name = None
     step_count = 0
     ac3_data = None
+    last_ran_algorithm_name = None
+    elapsed = 0
+    expansions = 0
+    showing_log = False
+    solution_log_lines = []
+    log_scroll_position = 0     
+
 
     while running:
         WINDOW.fill(white)
@@ -79,6 +213,45 @@ def main():
                         draw_input_board(input_state)
                         pygame.display.flip()
                         print(f"Đã tạo trạng thái ngẫu nhiên: {random_state}")
+                    elif selected_algorithm == "Show Log":
+                        if solution and selected_algorithm_name:
+                            try:
+                                # Tạo log như cũ
+                                solution_log_lines = []
+                                solution_log_lines.append(f"Thuật toán: {last_ran_algorithm_name}")
+                                solution_log_lines.append(f"Số bước: {len(solution)}")
+                                if elapsed > 0:
+                                    solution_log_lines.append(f"Thời gian thực thi: {elapsed:.4f} giây")
+                                if expansions > 0:
+                                    solution_log_lines.append(f"Số node đã mở rộng: {expansions}")
+                                solution_log_lines.append("")
+
+                                temp_state = original_state[:]
+                                solution_log_lines.append("Trạng thái ban đầu:")
+                                for r in range(3):
+                                    row_str = " ".join(str(temp_state[r * 3 + c]) if temp_state[r * 3 + c] != 0 else "_" for c in range(3))
+                                    solution_log_lines.append(row_str)
+                                solution_log_lines.append("")
+
+                                for i, move in enumerate(solution):
+                                    if isinstance(move, tuple) and len(move) == 2:
+                                        zero, swap = move
+                                        temp_state[zero], temp_state[swap] = temp_state[swap], temp_state[zero]
+                                        solution_log_lines.append(f"Bước {i + 1}: (swap {zero} ↔ {swap})")
+                                        for r in range(3):
+                                            row_str = " ".join(str(temp_state[r * 3 + c]) if temp_state[r * 3 + c] != 0 else "_" for c in range(3))
+                                            solution_log_lines.append(row_str)
+                                        solution_log_lines.append("")
+
+                                # 🟡 Gọi hàm scroll popup
+                                log_scroll_position = handle_log_display(WINDOW, solution_log_lines, log_scroll_position)
+
+                            except Exception as e:
+                                print(f"⚠️ Error displaying log: {e}")
+                        else:
+                            print("⚠️ Không có lời giải để hiển thị log.")
+
+
                     elif selected_algorithm == "apply":
                         if selected_algorithm_name == "Backtracking":
                             result = backtracking_csp()
@@ -168,6 +341,19 @@ def main():
                                 solving = False
                                 selected_algorithm_name += " (No Solution)"
                                 print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
+                        elif selected_algorithm_name == "BFS":
+                            last_ran_algorithm_name = selected_algorithm_name
+                            solving = True
+                            print("▶️ Đang chạy BFS...")
+                            import time
+                            start_time = time.time()
+                            solution, expansions = bfs_solve(start_state)
+                            elapsed = time.time() - start_time  # Ghi lại thời gian chạy
+                            step = 0
+                            if solution is None:
+                                solving = False
+                                selected_algorithm_name += " (No Solution)"
+                                print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
                         elif selected_algorithm_name == "Q-Learning":
                             solving = True
                             print("Đang chạy thuật toán Q-Learning...")
@@ -179,7 +365,6 @@ def main():
                                 selected_algorithm_name += " (No Solution)"
                                 print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
 
-                                print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
                         elif selected_algorithm_name == "Const Checking":
                             solving = True
                             result = constraint_checking_solve()
@@ -275,6 +460,7 @@ def main():
                                 print("Could not generate valid state using AC3 algorithm.")
                             solving = False  # Ensure solving is set to False after processing
                         else:
+                            last_ran_algorithm_name = selected_algorithm_name
                             solving = True
                             solution = selected_algorithm(start_state)
                             step = 0
@@ -283,6 +469,8 @@ def main():
                                 selected_algorithm_name += " (No Solution)"
                                 print(f"Không tìm thấy giải pháp cho trạng thái: {start_state}")
 
+        if showing_log:
+            show_log_surface(WINDOW, solution_log_lines, scroll_position=log_scroll_position)
 
         if solving and solution:
             draw_progress_bar(step, len(solution))

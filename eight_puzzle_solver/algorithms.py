@@ -10,41 +10,71 @@ import pygame
 
 # Hàm giải thuật BFS (Breadth-First Search): tìm kiếm theo chiều rộng, mở rộng tất cả các trạng thái cùng một mức độ trước khi chuyển sang mức độ tiếp theo
 def bfs_solve(start_state):
-    return generic_solve(start_state, queue=deque([(start_state, [])]), pop_method='popleft')
-
-# Hàm giải thuật DFS (Depth-First Search): tìm kiếm theo chiều sâu, mở rộng các trạng thái theo chiều sâu trước khi quay lại
-def dfs_solve(start_state, max_depth=100):
-    stack = [(start_state, [], 0)]  # Thêm một giá trị depth vào mỗi phần tử
+    goal_state = list(range(1, 9)) + [0]
     visited = set()
     visited.add(tuple(start_state))
+    queue = deque([(start_state, [])])
+    expansions = 0
 
-    while stack:
-        state, path, depth = stack.pop()
+    while queue:
+        state, path = queue.popleft()
+        expansions += 1
 
-        if state == list(range(1, 9)) + [0]:
-            return path
+        if state == goal_state:
+            return path, expansions  # ✅ Trả về tuple (path, expansions)
 
-        if depth >= max_depth:  # Nếu chiều sâu vượt quá max_depth thì tiếp tục
-            continue
+        zero_idx = state.index(0)
+        moves = [-3, 3, -1, 1]
 
-        zero_idx = state.index(0)  
-        moves = [-3, 3, -1, 1]  
-
-        # Generate next states
         for move in moves:
             new_idx = zero_idx + move
             if 0 <= new_idx < 9 and (
-                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or  
-                (move in [-3, 3]) 
+                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or (move in [-3, 3])
             ):
                 new_state = state[:]
                 new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
 
                 if tuple(new_state) not in visited:
                     visited.add(tuple(new_state))
-                    stack.append((new_state, path + [(zero_idx, new_idx)], depth + 1))  # Cập nhật chiều sâu
+                    queue.append((new_state, path + [(zero_idx, new_idx)]))
 
-    return None
+    return None, expansions
+
+
+def dfs_solve(start_state, max_depth=100):
+    stack = [(start_state, [], 0)]  # state, path, depth
+    visited = set()
+    visited.add(tuple(start_state))
+
+    while stack:
+        state, path, depth = stack.pop()
+
+        # Nếu đạt trạng thái đích
+        if state == list(range(1, 9)) + [0]:
+            return path  # Đây là danh sách các bước [(zero, new)]
+
+        if depth >= max_depth:
+            continue
+
+        zero_idx = state.index(0)
+        moves = [-3, 3, -1, 1]
+
+        for move in moves:
+            new_idx = zero_idx + move
+            if 0 <= new_idx < 9 and (
+                (move in [-1, 1] and zero_idx // 3 == new_idx // 3) or
+                (move in [-3, 3])
+            ):
+                new_state = state[:]
+                new_state[zero_idx], new_state[new_idx] = new_state[new_idx], new_state[zero_idx]
+
+                if tuple(new_state) not in visited:
+                    visited.add(tuple(new_state))
+                    new_path = path + [(zero_idx, new_idx)]
+                    stack.append((new_state, new_path, depth + 1))
+
+    return []  # Không tìm thấy lời giải
+
 
 
 # Hàm giải thuật Generic Solve: hàm tổng quát cho các thuật toán tìm kiếm khác nhau
